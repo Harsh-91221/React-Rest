@@ -1,8 +1,11 @@
 {
   "name": "namaste-react",
+  "homepage": "https://Harsh-91221.github.io/React-Rest",
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "start": "parcel public/index.html",
     "build": "parcel build public/index.html",
     "test": "jest"
