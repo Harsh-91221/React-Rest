@@ -1,0 +1,65 @@
+.header {
+  border: 1px solid #000;
+  justify-content: space-between;
+  display: flex;
+}
+
+.logo {
+  cursor: pointer;
+  height: 150px;
+}
+
+.nav-items ul {
+  font-size: 24px;
+  list-style-type: none;
+  display: flex;
+}
+
+.nav-items ul li {
+  cursor: pointer;
+  margin: 10px;
+  padding: 0 10px;
+  position: relative;
+}
+
+.nav-items ul li:after {
+  content: "";
+  background-color: #000;
+  width: 0;
+  height: 3px;
+  transition: width .3s;
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+}
+
+.nav-items ul li:hover:after {
+  width: 100%;
+}
+
+.res-container {
+  flex-wrap: wrap;
+  display: flex;
+}
+
+.res-card {
+  width: 200px;
+  margin: 10px;
+  padding: 15px;
+}
+
+.res-card:hover {
+  cursor: pointer;
+  border: 1px solid #000;
+}
+
+.search {
+  padding: 10px;
+}
+
+.res-logo {
+  width: 100%;
+  height: 150px;
+}
+
+/*# sourceMappingURL=index.b086ee0f.css.map */
