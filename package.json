@@ -16,6 +16,7 @@
     "@babel/preset-typescript": "^7.23.3",
     "@testing-library/react": "^14.2.1",
     "babel-jest": "^29.7.0",
+    "gh-pages": "^6.1.1",
     "jest-config": "27.5.1",
     "jest-environment-node": "27.5.1",
     "parcel": "^2.11.0",
