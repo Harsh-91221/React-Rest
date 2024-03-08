@@ -70,19 +70,19 @@ const Body = () => {
             <div className="search-container mx-4 my-20 md:my-100 flex justify-center items-center w-full">
                 <input
                     type="text"
-                    className="search-input w-80 box-border rounded-l-lg bg-white shadow-md px-12 py-8 border border-solid border-gray-300 focus:border-dark-orange outline-none text-text-color text-lg font-medium"
+                    className="w-80 max-w-md bg-white rounded-l-lg px-6 py-4 border border-gray-300 focus:border-dark-orange outline-none text-lg font-medium transition duration-300 ease-in-out rounded-xl mx-5"
                     placeholder="Search a restaurant"
                     value={searchText}
                     onChange={handleSearch}
                 />
                 <button
-                    className="search-btn rounded-r-lg bg-dark-orange hover:bg-dark-green shadow-md text-white px-22 py-12 ml--4 cursor-pointer border-none outline-none"
+                    className="search-btn rounded-r-lg bg-dark-orange hover:bg-dark-green shadow-md text-white px-3 py-3 ml--4 cursor-pointer border-none outline-none rounded-lg"
                     onClick={() => {
                         // user click on button searchData function is called
                         searchData(searchText, allRestaurants);
                     }}
                 >
-                    Search
+                    🔍
                 </button>
             </div>
             {errorMessage && <div className="error-container text-center text-lg my-20 mx-10">{errorMessage}</div>}
@@ -98,7 +98,7 @@ const Body = () => {
 };
 
 export default Body;
-        {/* {allRestaurants?.length === 0 && FilterRes?.length === 0 ? (
+{/* {allRestaurants?.length === 0 && FilterRes?.length === 0 ? (
                 <Shimmer />
             ) : (
                 <div className="restaurant-list">
