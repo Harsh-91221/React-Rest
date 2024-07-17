@@ -2,8 +2,6 @@
 
 # Namaste Food
 
-/\*\*
-
 - Header
 - - Logo
 - - Nav Items
@@ -18,7 +16,6 @@
 - - Links
 - - Address
 - - Contact
-    \*/
 
 # React Hooks
 
