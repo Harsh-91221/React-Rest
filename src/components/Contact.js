@@ -18,6 +18,18 @@ const Contact = () => {
                 <div className="contact-form-container">
                     <h1 className="contact-title">Get in Touch</h1>
                     <p className="contact-subtitle">We'd love to hear from you! Send us a message.</p>
+                    
+                    <div className="contact-info-box">
+                        <div className="contact-info-item">
+                            <span className="info-label">Email:</span>
+                            <span className="info-value">harshch91221@gmail.com</span>
+                        </div>
+                        <div className="contact-info-item">
+                            <span className="info-label">Phone:</span>
+                            <span className="info-value">7906652880</span>
+                        </div>
+                    </div>
+                    
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
                             <input type="text" placeholder="Your Name" required />

@@ -41,11 +41,11 @@ const Body = () => {
             {/* Hero Section */}
             <section className="hero-section">
                 <h1 className="hero-title">
-                    Discover <span>Extraordinary</span><br />
-                    Flavors Worldwide
+                    Experience <span>Exquisite</span><br />
+                    Fine Dining Delivered
                 </h1>
                 <p className="hero-subtitle">
-                    Explore hundreds of authentic recipes from top chefs around the globe
+                    Curated culinary masterpieces from world-class restaurants, served with elegance
                 </p>
             </section>
 
