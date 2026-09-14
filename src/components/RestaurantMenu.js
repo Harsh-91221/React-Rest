@@ -1,15 +1,26 @@
-import React, { useState } from "react";
+import React from "react";
 import Shimmer from "./Shimmer";
 import { useParams } from "react-router-dom";
 import useRestaurantMenu from "../utils/useRestuarantMenu";
 
 const RestaurantMenu = () => {
     const { resId } = useParams();
-    const resInfo = useRestaurantMenu(resId);
-    const [showInstructions, setShowInstructions] = useState(false);
+    const { resInfo, loading, error } = useRestaurantMenu(resId);
+    const [showAll, setShowAll] = useState(false);
 
-    if (resInfo === null) {
+    if (loading) {
         return <Shimmer />;
+    }
+
+    if (error || !resInfo) {
+        return (
+            <div className="error-container-page">
+                <h1>404</h1>
+                <h2>Recipe not found</h2>
+                <p>The recipe you're looking for doesn't exist or couldn't be loaded.</p>
+                <a href="/React-Rest/" className="back-btn">Back to Home</a>
+            </div>
+        );
     }
 
     // Parse ingredients from API
@@ -25,6 +36,16 @@ const RestaurantMenu = () => {
         }
     }
 
+    // Format instructions
+    const formattedInstructions = resInfo.strInstructions
+        ? resInfo.strInstructions
+              .split(/\r?\n/)
+              .filter(line => line.trim())
+              .map((line, idx) => <p key={idx} className="instruction-step">{line.replace(/^\d+\.\s*/, '')}</p>)
+        : [];
+
+    const displayInstructions = showAll ? formattedInstructions : formattedInstructions.slice(0, 5);
+
     return (
         <div className="menu-container">
             <div className="menu-header">
@@ -36,24 +57,40 @@ const RestaurantMenu = () => {
                 <div className="menu-info">
                     <h1 className="menu-title">{resInfo.strMeal}</h1>
                     <div className="menu-meta">
-                        <span className="menu-category">{resInfo.strCategory}</span>
-                        <span className="menu-area">{resInfo.strArea}</span>
+                        {resInfo.strCategory && (
+                            <span className="menu-category">{resInfo.strCategory}</span>
+                        )}
+                        {resInfo.strArea && (
+                            <span className="menu-area">{resInfo.strArea}</span>
+                        )}
                     </div>
-                    <p className="menu-description">{resInfo.strInstructions}</p>
+                    <div className="instructions-preview">
+                        {displayInstructions}
+                        {formattedInstructions.length > 5 && (
+                            <button 
+                                className="show-more-btn"
+                                onClick={() => setShowAll(!showAll)}
+                            >
+                                {showAll ? "Show Less" : "Show More"}
+                            </button>
+                        )}
+                    </div>
                 </div>
             </div>
 
-            <div className="menu-section">
-                <h2 className="section-title">Ingredients</h2>
-                <div className="ingredients-grid">
-                    {ingredients.map((ing, index) => (
-                        <div key={index} className="ingredient-item">
-                            <span className="ingredient-name">{ing.name}</span>
-                            <span className="ingredient-measure">{ing.measure}</span>
-                        </div>
-                    ))}
+            {ingredients.length > 0 && (
+                <div className="menu-section">
+                    <h2 className="section-title">Ingredients</h2>
+                    <div className="ingredients-grid">
+                        {ingredients.map((ing, index) => (
+                            <div key={index} className="ingredient-item">
+                                <span className="ingredient-name">{ing.name}</span>
+                                <span className="ingredient-measure">{ing.measure}</span>
+                            </div>
+                        ))}
+                    </div>
                 </div>
-            </div>
+            )}
 
             {resInfo.strYoutube && (
                 <div className="menu-section">
@@ -73,17 +110,17 @@ const RestaurantMenu = () => {
             )}
 
             <div className="menu-links">
-                {resInfo.strSource && (
-                    <a href={resInfo.strSource} target="_blank" rel="noopener noreferrer" className="source-link">
-                        Original Recipe
-                    </a>
-                )}
                 {resInfo.strTags && (
                     <div className="tags">
                         {resInfo.strTags.split(',').map((tag, index) => (
                             <span key={index} className="tag">{tag.trim()}</span>
                         ))}
                     </div>
+                )}
+                {resInfo.strSource && (
+                    <a href={resInfo.strSource} target="_blank" rel="noopener noreferrer" className="source-link">
+                        Original Recipe
+                    </a>
                 )}
             </div>
         </div>
