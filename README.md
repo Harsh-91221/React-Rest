@@ -18,6 +18,19 @@ A premium food delivery app where you can browse restaurants, view menus, and or
 
 ---
 
+## 🔗 Documentation & Walkthroughs
+
+### Visual Guides
+| Resource | Link |
+|----------|------|
+| **Project Overview** | [Walkthrough](https://Harsh-91221.github.io/React-Rest/Docs/walkthrough-react-rest-overview.html) |
+| **Database Schema** | [Database Schema](https://Harsh-91221.github.io/React-Rest/Docs/walkthrough-react-rest-database-schema.html) |
+
+### Design System
+A complete design system with color palette, typography, and components is available in the `design-system/Noir-Table/` folder.
+
+---
+
 ## 🚀 Getting Started
 
 ### 1. Install Dependencies
@@ -71,6 +84,11 @@ React-Rest/
 │   └── utils/
 │       ├── constants.js    # API URLs and config
 │       └── useResData.js   # Hook to fetch restaurants
+├── Docs/                   # Documentation HTML files
+│   ├── walkthrough-react-rest-overview.html
+│   └── walkthrough-react-rest-database-schema.html
+├── design-system/          # Design system & brand assets
+│   └── Noir-Table/
 ├── package.json            # Dependencies and scripts
 └── README.md               # This file
 ```
