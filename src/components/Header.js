@@ -21,8 +21,10 @@ const Header = () => {
         if (savedTheme === 'light') {
             setIsDarkMode(false);
             document.documentElement.classList.remove('dark-mode');
+            document.documentElement.classList.add('light-mode');
         } else {
             setIsDarkMode(true);
+            document.documentElement.classList.remove('light-mode');
             document.documentElement.classList.add('dark-mode');
         }
     }, []);
@@ -32,10 +34,12 @@ const Header = () => {
         setIsDarkMode(newMode);
         
         if (newMode) {
+            document.documentElement.classList.remove('light-mode');
             document.documentElement.classList.add('dark-mode');
             localStorage.setItem('theme', 'dark');
         } else {
             document.documentElement.classList.remove('dark-mode');
+            document.documentElement.classList.add('light-mode');
             localStorage.setItem('theme', 'light');
         }
     };
@@ -44,7 +48,7 @@ const Header = () => {
         <header className="header">
             <div className="logoContainer">
                 <Link to="/">
-                    <img className="logo" src={LOGO_URL} alt="Namaste Food Logo" />
+                    <img className="logo" src={LOGO_URL} />
                 </Link>
             </div>
             
