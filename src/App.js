@@ -6,11 +6,22 @@ import Body from "./components/Body";
 import About from "./components/About";
 import Contact from "./components/Contact";
 import Error from "./components/Error";
+import Login from "./components/Login";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import RestaurantMenu from "./components/RestaurantMenu";
 import { Provider } from "react-redux";
 import appStore from "./utils/appStore";
 import Cart from "./components/Cart";
+
+// Layout without header/footer for auth pages
+const AuthLayout = () => {
+    return (
+        <div className="auth-layout">
+            <Outlet />
+        </div>
+    );
+};
+
 const AppLayout = () => {
     return (
         <Provider store={appStore}>
@@ -24,6 +35,7 @@ const AppLayout = () => {
         </Provider>
     );
 };
+
 const appRouter = createBrowserRouter([{
         path: "/",
         element: <AppLayout />,
@@ -51,6 +63,16 @@ const appRouter = createBrowserRouter([{
         ],
         errorElement: <Error />,
     },
+    {
+        path: "/login",
+        element: <AuthLayout />,
+        children: [
+            {
+                path: "/login",
+                element: <Login />,
+            }
+        ]
+    }
 ], { basename: "/React-Rest" });
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<RouterProvider router={appRouter} />);

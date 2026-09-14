@@ -1,19 +1,18 @@
 import React, { useState, useContext, useEffect } from "react";
 import { LOGO_URL } from "../utils/constants";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
 import userContext from "../utils/userContext";
 import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartShopping, faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
+import { faCartShopping, faSun, faMoon, faUser } from "@fortawesome/free-solid-svg-icons";
 
 const Header = () => {
-    const [isLogged, setIsLogged] = useState(false);
     const [isDarkMode, setIsDarkMode] = useState(true);
-    const handleLogin = () => setIsLogged(!isLogged);
     const onlineStatus = useOnlineStatus();
     const { loggedInUser } = useContext(userContext);
     const cartItems = useSelector((store) => store.cart.items);
+    const navigate = useNavigate();
 
     // Initialize theme from localStorage on mount
     useEffect(() => {
@@ -44,16 +43,21 @@ const Header = () => {
         }
     };
 
+    const handleLogout = () => {
+        localStorage.removeItem('user');
+        navigate('/login');
+    };
+
     return (
         <header className="header">
             <div className="logoContainer">
                 <Link to="/">
-                    <img className="logo" src={LOGO_URL} />
+                    <img className="logo" src={LOGO_URL} alt="Noir Table" />
                 </Link>
             </div>
             
             <div className="header-controls">
-                {/* Theme Toggle - Positioned before nav */}
+                {/* Theme Toggle */}
                 <button 
                     className="theme-toggle" 
                     onClick={toggleTheme}
@@ -94,12 +98,22 @@ const Header = () => {
                                 className={`onlineStatus ${onlineStatus ? 'online' : 'offline'}`}
                                 title={onlineStatus ? "Online" : "Offline"}
                             ></span>
-                            <button 
-                                className="login-btn" 
-                                onClick={handleLogin}
-                            >
-                                {isLogged ? "Logout" : "Login"}
-                            </button>
+                            {loggedInUser ? (
+                                <div className="user-menu">
+                                    <button className="user-btn" onClick={handleLogout}>
+                                        <FontAwesomeIcon icon={faUser} />
+                                        <span>{loggedInUser.name || 'User'}</span>
+                                    </button>
+                                </div>
+                            ) : (
+                                <button 
+                                    className="login-btn" 
+                                    onClick={() => navigate('/login')}
+                                >
+                                    <FontAwesomeIcon icon={faUser} />
+                                    Login
+                                </button>
+                            )}
                         </li>
                     </ul>
                 </nav>
