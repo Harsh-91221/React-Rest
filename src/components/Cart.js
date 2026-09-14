@@ -7,13 +7,36 @@ const Cart = () => {
     const handleClearCart = () => {
         dispatch(clearCart());
     };
-    return (<div className="text-center m-4 p-4">
-        <h1 className="text-2xl font-bold">Cart</h1>
-        <div className="w-6/12 m-auto">
-            <button className="p-2 m-2 bg-black text-white rounded-lg" onClick={handleClearCart}>Clear Cart</button>
-            {cartItems.length == 0 && <h1 className="font-bold">Add Item to the cart</h1>}
-            <ItemList items={cartItems} />
+    
+    const getTotalAmount = () => {
+        return cartItems.reduce((total, item) => total + (item.price || 0) * (item.quantity || 1), 0);
+    };
+
+    return (
+        <div className="cart-container">
+            <h1 className="cart-title">My Cart</h1>
+            {cartItems.length === 0 ? (
+                <div className="cart-empty">
+                    <p className="cart-empty-text">Your cart is empty. Add some delicious items!</p>
+                    <Link to="/" className="checkout-btn">Browse Restaurants</Link>
+                </div>
+            ) : (
+                <>
+                    <div className="cart-items">
+                        <ItemList items={cartItems} />
+                    </div>
+                    <div className="cart-total">
+                        <span className="total-label">Total Amount:</span>
+                        <span className="total-amount">₹{getTotalAmount()}</span>
+                    </div>
+                    <button className="checkout-btn" onClick={handleClearCart}>
+                        Clear Cart
+                    </button>
+                </>
+            )}
         </div>
-    </div>);
+    );
 };
+
+import { Link } from "react-router-dom";
 export default Cart;

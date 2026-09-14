@@ -7,7 +7,7 @@ const MOCK_RESTAURANTS = [
             avgRating: 4.2,
             costForTwo: "₹350 for two",
             slaString: "30-35 min",
-            cloudinaryImageId: "huduj2vqbp0epk5kgg0s",
+            cloudinaryImageId: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&h=300&fit=crop",
         },
     },
     {
@@ -18,7 +18,7 @@ const MOCK_RESTAURANTS = [
             avgRating: 4.5,
             costForTwo: "₹400 for two",
             slaString: "25-30 min",
-            cloudinaryImageId: "nqzvr8h5k7b7j3r0a2l4",
+            cloudinaryImageId: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=400&h=300&fit=crop",
         },
     },
     {
@@ -29,7 +29,7 @@ const MOCK_RESTAURANTS = [
             avgRating: 4.0,
             costForTwo: "₹300 for two",
             slaString: "20-25 min",
-            cloudinaryImageId: "56c7ab469e0e42c3e61c8f7c4f6e7c9a",
+            cloudinaryImageId: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=300&fit=crop",
         },
     },
     {
@@ -40,7 +40,7 @@ const MOCK_RESTAURANTS = [
             avgRating: 3.8,
             costForTwo: "₹250 for two",
             slaString: "25-30 min",
-            cloudinaryImageId: "xwz8v2c1y4b5n6m7k8j9",
+            cloudinaryImageId: "https://images.unsplash.com/photo-1550507992-eb63ffee0847?w=400&h=300&fit=crop",
         },
     },
     {
@@ -51,7 +51,7 @@ const MOCK_RESTAURANTS = [
             avgRating: 4.1,
             costForTwo: "₹350 for two",
             slaString: "20-25 min",
-            cloudinaryImageId: "1ecvakuq8prw7g9mzfkd",
+            cloudinaryImageId: "https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?w=400&h=300&fit=crop",
         },
     },
     {
@@ -62,7 +62,7 @@ const MOCK_RESTAURANTS = [
             avgRating: 4.0,
             costForTwo: "₹300 for two",
             slaString: "25-30 min",
-            cloudinaryImageId: "x0hgnfzcqb4p7g1mzfkd",
+            cloudinaryImageId: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400&h=300&fit=crop",
         },
     },
     {
@@ -73,7 +73,7 @@ const MOCK_RESTAURANTS = [
             avgRating: 4.3,
             costForTwo: "₹250 for two",
             slaString: "20-25 min",
-            cloudinaryImageId: "lmp7cqbrs7k8g1mzfkd",
+            cloudinaryImageId: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400&h=300&fit=crop",
         },
     },
     {
@@ -84,7 +84,7 @@ const MOCK_RESTAURANTS = [
             avgRating: 3.9,
             costForTwo: "₹300 for two",
             slaString: "20-25 min",
-            cloudinaryImageId: "zm5k8g1mzfkd9a2c3e4f",
+            cloudinaryImageId: "https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=400&h=300&fit=crop",
         },
     },
     {
@@ -95,7 +95,7 @@ const MOCK_RESTAURANTS = [
             avgRating: 4.4,
             costForTwo: "₹150 for two",
             slaString: "15-20 min",
-            cloudinaryImageId: "a3b4c5d6e7f8g9h0i1j2",
+            cloudinaryImageId: "https://images.unsplash.com/photo-1558160074-4d7d8bdf4256?w=400&h=300&fit=crop",
         },
     },
     {
@@ -106,7 +106,7 @@ const MOCK_RESTAURANTS = [
             avgRating: 4.2,
             costForTwo: "₹800 for two",
             slaString: "40-45 min",
-            cloudinaryImageId: "k3l4m5n6o7p8q9r0s1t2",
+            cloudinaryImageId: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&h=300&fit=crop",
         },
     },
     {
@@ -117,7 +117,7 @@ const MOCK_RESTAURANTS = [
             avgRating: 4.0,
             costForTwo: "₹200 for two",
             slaString: "30-35 min",
-            cloudinaryImageId: "u4v5w6x7y8z9a0b1c2d3",
+            cloudinaryImageId: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=400&h=300&fit=crop",
         },
     },
     {
@@ -128,7 +128,7 @@ const MOCK_RESTAURANTS = [
             avgRating: 4.3,
             costForTwo: "₹250 for two",
             slaString: "25-30 min",
-            cloudinaryImageId: "e5f6g7h8i9j0k1l2m3n4",
+            cloudinaryImageId: "https://images.unsplash.com/photo-1496116218417-1a781b1c416c?w=400&h=300&fit=crop",
         },
     },
     {
@@ -139,7 +139,7 @@ const MOCK_RESTAURANTS = [
             avgRating: 4.5,
             costForTwo: "₹600 for two",
             slaString: "35-40 min",
-            cloudinaryImageId: "o6p7q8r9s0t1u2v3w4x5",
+            cloudinaryImageId: "https://images.unsplash.com/photo-1633945274405-b6c8069047b0?w=400&h=300&fit=crop",
         },
     },
     {
@@ -150,7 +150,7 @@ const MOCK_RESTAURANTS = [
             avgRating: 3.7,
             costForTwo: "₹200 for two",
             slaString: "20-25 min",
-            cloudinaryImageId: "y7z8a9b0c1d2e3f4g5h6",
+            cloudinaryImageId: "https://images.unsplash.com/photo-1561758033-d89a9ad46330?w=400&h=300&fit=crop",
         },
     },
     {
@@ -161,7 +161,7 @@ const MOCK_RESTAURANTS = [
             avgRating: 4.1,
             costForTwo: "₹250 for two",
             slaString: "25-30 min",
-            cloudinaryImageId: "i8j9k0l1m2n3o4p5q6r7",
+            cloudinaryImageId: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&h=300&fit=crop",
         },
     },
     {
@@ -172,7 +172,7 @@ const MOCK_RESTAURANTS = [
             avgRating: 4.0,
             costForTwo: "₹300 for two",
             slaString: "30-35 min",
-            cloudinaryImageId: "s9t0u1v2w3x4y5z6a7b8",
+            cloudinaryImageId: "https://images.unsplash.com/photo-1547592180-85f173990554?w=400&h=300&fit=crop",
         },
     },
     {
@@ -183,7 +183,7 @@ const MOCK_RESTAURANTS = [
             avgRating: 3.9,
             costForTwo: "₹200 for two",
             slaString: "25-30 min",
-            cloudinaryImageId: "c0d1e2f3g4h5i6j7k8l9",
+            cloudinaryImageId: "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400&h=300&fit=crop",
         },
     },
     {
@@ -194,7 +194,7 @@ const MOCK_RESTAURANTS = [
             avgRating: 4.2,
             costForTwo: "₹400 for two",
             slaString: "30-35 min",
-            cloudinaryImageId: "m1n2o3p4q5r6s7t8u9v0",
+            cloudinaryImageId: "https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?w=400&h=300&fit=crop",
         },
     },
     {
@@ -205,7 +205,7 @@ const MOCK_RESTAURANTS = [
             avgRating: 4.4,
             costForTwo: "₹300 for two",
             slaString: "25-30 min",
-            cloudinaryImageId: "w2x3y4z5a6b7c8d9e0f1",
+            cloudinaryImageId: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&h=300&fit=crop",
         },
     },
     {
@@ -216,7 +216,7 @@ const MOCK_RESTAURANTS = [
             avgRating: 4.3,
             costForTwo: "₹700 for two",
             slaString: "40-45 min",
-            cloudinaryImageId: "g3h4i5j6k7l8m9n0o1p2",
+            cloudinaryImageId: "https://images.unsplash.com/photo-1529193591184-b1d580690dd0?w=400&h=300&fit=crop",
         },
     },
 ];

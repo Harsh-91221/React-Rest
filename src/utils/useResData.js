@@ -1,46 +1,55 @@
 import { useEffect, useState } from "react";
-import MOCK_RESTAURANTS from "./mockData";
+import { API_URL, CATEGORIES_URL } from "./constants";
 
-const useResData = (API_URL) => {
+const useResData = () => {
     const [allRestaurants, setAllRestaurants] = useState([]);
     const [filteredRestaurants, setFilteredRestaurants] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        getRestaurants();
+        fetchData();
     }, []);
 
-    async function getRestaurants() {
+    async function fetchData() {
         try {
-            const response = await fetch(API_URL, {
-                headers: {
-                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-                    "Referer": "https://www.swiggy.com",
-                },
-            });
+            // Fetch categories first
+            const catResponse = await fetch(CATEGORIES_URL);
+            const catData = await catResponse.json();
+            const categoryList = catData?.meals || [];
+            setCategories(categoryList);
 
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}`);
-            }
+            // Fetch meals from first category
+            if (categoryList.length > 0) {
+                const firstCategory = categoryList[0].strCategory;
+                const response = await fetch(`${API_URL}${firstCategory}`);
+                const data = await response.json();
+                const meals = data?.meals || [];
+                
+                // Transform meal data to match restaurant card format
+                const restaurantData = meals.map((meal, index) => ({
+                    info: {
+                        id: String(meal.idMeal),
+                        name: meal.strMeal,
+                        cuisines: [meal.strCategory, meal.strArea || "International"],
+                        avgRating: (4 + (index % 3) * 0.1).toFixed(1),
+                        costForTwo: `₹${150 + (index * 25)} for two`,
+                        slaString: `${20 + (index % 5) * 5}-${30 + (index % 5) * 5} min`,
+                        cloudinaryImageId: meal.strMealThumb,
+                    }
+                }));
 
-            const json = await response.json();
-            const restaurants = json?.data?.cards?.flatMap(card => 
-                card?.card?.card?.gridElements?.infoWithStyle?.restaurants || []
-            ).filter(r => r !== undefined);
-
-            if (restaurants.length > 0) {
-                setAllRestaurants(restaurants);
-                setFilteredRestaurants(restaurants);
-            } else {
-                throw new Error("No restaurants in response");
+                setAllRestaurants(restaurantData);
+                setFilteredRestaurants(restaurantData);
             }
         } catch (error) {
-            console.warn("API unavailable, using mock data:", error.message);
-            setAllRestaurants(MOCK_RESTAURANTS);
-            setFilteredRestaurants(MOCK_RESTAURANTS);
+            console.error("Error fetching data:", error);
+        } finally {
+            setLoading(false);
         }
     }
 
-    return [allRestaurants, filteredRestaurants];
+    return { allRestaurants, filteredRestaurants, categories, loading };
 };
 
 export default useResData;
