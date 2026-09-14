@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React-Rest Database & API Schema</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #1a1a2e; color: #eee; line-height: 1.6; }
+        .container { max-width: 950px; margin: 0 auto; padding: 40px 20px; }
+        h1 { color: #e67e22; font-size: 2em; margin-bottom: 5px; }
+        h2 { color: #f39c12; font-size: 1.3em; margin-top: 30px; margin-bottom: 15px; border-bottom: 2px solid #e67e22; padding-bottom: 5px; }
+        h3 { color: #3498db; font-size: 1.05em; margin-top: 18px; margin-bottom: 8px; }
+        .subtitle { color: #888; font-size: 1em; margin-bottom: 30px; }
+        .card { background: #16213e; border-radius: 8px; padding: 22px; margin-bottom: 18px; box-shadow: 0 2px 12px rgba(0,0,0,0.3); border: 1px solid #2a2a4a; }
+        .field { display: flex; padding: 8px 12px; margin: 4px 0; border-radius: 4px; background: #0f3460; }
+        .field.type { color: #e74c3c; font-family: monospace; width: 100px; flex-shrink: 0; }
+        .field.name { color: #f1c40f; font-family: monospace; width: 160px; flex-shrink: 0; }
+        .field.desc { color: #bbb; }
+        .table-wrap { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.92em; }
+        th { background: #e67e22; color: white; padding: 10px 12px; text-align: left; }
+        td { padding: 9px 12px; border-bottom: 1px solid #2a2a4a; }
+        tr:hover { background: #1a1a3e; }
+        code { background: #0f3460; color: #2ecc71; padding: 2px 6px; border-radius: 3px; font-family: monospace; font-size: 0.9em; }
+        .api-url { background: #0d1b2a; color: #2ecc71; padding: 12px 16px; border-radius: 6px; font-family: monospace; font-size: 0.85em; word-break: break-all; margin: 10px 0; border: 1px solid #333; }
+        .enum-list { list-style: none; padding-left: 0; }
+        .enum-list li { padding: 4px 0; color: #bbb; }
+        .enum-list li::before { content: "\2022 "; color: #e67e22; }
+        .note { background: #2d1f00; border-left: 4px solid #e67e22; padding: 12px 16px; border-radius: 4px; margin: 12px 0; font-size: 0.9em; color: #ddd; }
+        .section-label { display: inline-block; background: #e67e22; color: white; padding: 2px 10px; border-radius: 4px; font-size: 0.8em; font-weight: bold; margin-right: 8px; }
+        .arrow { color: #e67e22; font-size: 1.3em; text-align: center; margin: 5px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🗄️ Data Schema & API Reference</h1>
+        <p class="subtitle">Data structures used by React-Rest (Namaste Food) — API responses and local state</p>
+
+        <div class="card">
+            <h2>📡 API Endpoints</h2>
+            <h3>1. Restaurant List</h3>
+            <div class="api-url">GET https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.4808184&lng=77.5177682&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING</div>
+            <h3>2. Restaurant Menu</h3>
+            <div class="api-url">GET https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=28.4808184&lng=77.5177682&restaurantId={resId}</div>
+        </div>
+
+        <div class="card">
+            <h2>📦 Restaurant List Response Schema</h2>
+            <p style="color:#888; margin-bottom:12px;">Nested path: <code>data.cards[4].card.card.gridElements.infoWithStyle.restaurants[]</code></p>
+            <div class="table-wrap">
+                <table>
+                    <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+                    <tr><td><code>id</code></td><td>string</td><td>Unique restaurant identifier (used in URL routing)</td></tr>
+                    <tr><td><code>name</code></td><td>string</td><td>Restaurant name</td></tr>
+                    <tr><td><code>cloudinaryImageId</code></td><td>string</td><td>Image key for CDN URL construction</td></tr>
+                    <tr><td><code>avgRating</code></td><td>number</td><td>Average star rating (e.g., 4.5)</td></tr>
+                    <tr><td><code>cuisines</code></td><td>string[]</td><td>Array of cuisine types (e.g., ["North Indian", "Biryani"])</td></tr>
+                    <tr><td><code>costForTwo</code></td><td>string</td><td>Cost for two (e.g., "₹400 for two")</td></tr>
+                    <tr><td><code>slaString</code></td><td>string</td><td>Delivery time estimate (e.g., "28-32 mins")</td></tr>
+                    <tr><td><code>feeDistance</code></td><td>string</td><td>Delivery fee distance indicator</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>📋 Restaurant Menu Response Schema</h2>
+            <p style="color:#888; margin-bottom:12px;">The menu response contains many cards. The relevant data is at:</p>
+            <code>data.cards[2].groupedCard.cardGroupMap.REGULAR.cards[]</code>
+            <h3 style="margin-top:16px;">Menu Card Structure</h3>
+            <div class="table-wrap">
+                <table>
+                    <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+                    <tr><td><code>card.card.title</code></td><td>string</td><td>Category name (e.g., "Recommended", "Soups")</td></tr>
+                    <tr><td><code>card.card.itemCards</code></td><td>array</td><td>Array of menu items in this category</td></tr>
+                    <tr><td><code>card.card["@type"]</code></td><td>string</td><td>Used to filter: <code>type.googleapis.com/swiggy.presentation.food.v2.ItemCategory</code></td></tr>
+                </table>
+            </div>
+            <h3 style="margin-top:16px;">Menu Item Structure (inside itemCards)</h3>
+            <div class="table-wrap">
+                <table>
+                    <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+                    <tr><td><code>card.info.id</code></td><td>string</td><td>Unique item ID</td></tr>
+                    <tr><td><code>card.info.name</code></td><td>string</td><td>Dish name</td></tr>
+                    <tr><td><code>card.info.price</code></td><td>number</td><td>Price in paise (divide by 100 for rupees)</td></tr>
+                    <tr><td><code>card.info.defaultPrice</code></td><td>number</td><td>Fallback price in paise</td></tr>
+                    <tr><td><code>card.info.description</code></td><td>string</td><td>Food description</td></tr>
+                    <tr><td><code>card.info.imageId</code></td><td>string</td><td>Image key for CDN URL</td></tr>
+                    <tr><td><code>card.info.category</code></td><td>string</td><td>Category label</td></tr>
+                    <tr><td><code>card.info.isVeg</code></td><td>boolean</td><td>Vegetarian indicator</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🛒 Redux Store Schema</h2>
+            <p style="color:#888; margin-bottom:12px;">Defined in <code>src/utils/cartSlice.js</code></p>
+            <div class="table-wrap">
+                <table>
+                    <tr><th>Path</th><th>Type</th><th>Description</th></tr>
+                    <tr><td><code>store.cart.items</code></td><td>array</td><td>Array of menu item objects added to cart</td></tr>
+                </table>
+            </div>
+            <h3>Actions</h3>
+            <div class="table-wrap">
+                <table>
+                    <tr><th>Action</th><th>Payload</th><th>Effect</th></tr>
+                    <tr><td><code>addItem</code></td><td>menu item object</td><td>Pushes item into cart array</td></tr>
+                    <tr><td><code>removeItem</code></td><td>item index</td><td>Removes item from cart</td></tr>
+                    <tr><td><code>clearCart</code></td><td>none</td><td>Empties the cart array</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🔧 Internal Utility Functions</h2>
+            <h3><span class="section-label">Hook</span> useResData(API_URL)</h3>
+            <div class="table-wrap">
+                <table>
+                    <tr><th>Param</th><th>Type</th><th>Description</th></tr>
+                    <tr><td><code>API_URL</code></td><td>string</td><td>Full URL to fetch restaurant list</td></tr>
+                </table>
+            </div>
+            <div class="arrow">↓ returns</div>
+            <div class="table-wrap">
+                <table>
+                    <tr><th>Return</th><th>Type</th><th>Description</th></tr>
+                    <tr><td><code>[allRestaurants, filteredRestaurants]</code></td><td>[array, array]</td><td>Both initially populated with raw API data</td></tr>
+                </table>
+            </div>
+            <h3 style="margin-top:16px;"><span class="section-label">Hook</span> useRestaurantMenu(resId)</h3>
+            <div class="table-wrap">
+                <table>
+                    <tr><th>Param</th><th>Type</th><th>Description</th></tr>
+                    <tr><td><code>resId</code></td><td>string</td><td>Restaurant ID from URL params</td></tr>
+                </table>
+            </div>
+            <div class="arrow">↓ returns</div>
+            <div class="table-wrap">
+                <table>
+                    <tr><th>Return</th><th>Type</th><th>Description</th></tr>
+                    <tr><td><code>resInfo</code></td><td>object|null</td><td>Menu data object or null while loading</td></tr>
+                </table>
+            </div>
+            <h3 style="margin-top:16px;"><span class="section-label">Func</span> filterData(searchText, restaurants)</h3>
+            <div class="table-wrap">
+                <table>
+                    <tr><th>Param</th><th>Type</th><th>Description</th></tr>
+                    <tr><td><code>searchText</code></td><td>string</td><td>Lowercase search query</td></tr>
+                    <tr><td><code>restaurants</code></td><td>array</td><td>Full restaurant array to filter</td></tr>
+                </table>
+            </div>
+            <div class="arrow">↓ returns</div>
+            <div class="table-wrap">
+                <table>
+                    <tr><th>Return</th><th>Type</th><th>Description</th></tr>
+                    <tr><td><code>filteredData</code></td><td>array</td><td>Restaurants whose name includes searchText</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🗺️ Route Map</h2>
+            <div class="table-wrap">
+                <table>
+                    <tr><th>Path</th><th>Component</th><th>Data Fetching</th></tr>
+                    <tr><td><code>/</code></td><td><code>Body</code></td><td>Fetches all restaurants on mount</td></tr>
+                    <tr><td><code>/about</code></td><td><code>About</code></td><td>No API calls (static)</td></tr>
+                    <tr><td><code>/contact</code></td><td><code>Contact</code></td><td>No API calls (static form)</td></tr>
+                    <tr><td><code>/restaurants/:resId</code></td><td><code>RestaurantMenu</code></td><td>Fetches menu by resId on mount</td></tr>
+                    <tr><td><code>/cart</code></td><td><code>Cart</code></td><td>Reads from Redux store only</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🔑 Constants</h2>
+            <div class="table-wrap">
+                <table>
+                    <tr><th>Constant</th><th>Value</th><th>Purpose</th></tr>
+                    <tr><td><code>CDN_URL</code></td><td>Swiggy media CDN base</td><td>Prefix for all food/restaurant images</td></tr>
+                    <tr><td><code>LOGO_URL</code></td><td>Restaurant logo PNG</td><td>Header logo image</td></tr>
+                    <tr><td><code>MENU_API</code></td><td>Swiggy menu endpoint base</td><td>Suffixed with restaurant ID</td></tr>
+                    <tr><td><code>API_URL</code></td><td>Swiggy restaurant list endpoint</td><td>Full URL with Delhi coordinates</td></tr>
+                </table>
+            </div>
+            <div class="note">
+                <strong>Note:</strong> Coordinates are hardcoded to Delhi, India (lat: 28.4808184, lng: 77.5177682). The app works with Swiggy's internal/deprecated API endpoints which may change without notice.
+            </div>
+        </div>
+    </div>
+</body>
+</html>

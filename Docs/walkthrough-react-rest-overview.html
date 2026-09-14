@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React-Rest Project Overview</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f5f5; color: #333; line-height: 1.6; }
+        .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+        h1 { color: #e67e22; font-size: 2.2em; margin-bottom: 10px; }
+        h2 { color: #2c3e50; font-size: 1.4em; margin-top: 30px; margin-bottom: 15px; border-bottom: 2px solid #e67e22; padding-bottom: 5px; }
+        h3 { color: #34495e; font-size: 1.1em; margin-top: 20px; margin-bottom: 10px; }
+        .subtitle { color: #7f8c8d; font-size: 1.1em; margin-bottom: 30px; }
+        .card { background: white; border-radius: 8px; padding: 25px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .tag { display: inline-block; background: #e67e22; color: white; padding: 3px 10px; border-radius: 4px; font-size: 0.85em; margin: 2px; }
+        .tag.blue { background: #3498db; }
+        .tag.green { background: #27ae60; }
+        .tag.purple { background: #9b59b6; }
+        .tech-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; margin-top: 10px; }
+        .tech-item { background: #f8f9fa; padding: 10px 15px; border-radius: 6px; border-left: 4px solid #e67e22; }
+        .tech-item strong { display: block; color: #2c3e50; }
+        .tech-item span { font-size: 0.9em; color: #666; }
+        .flow-diagram { background: #f8f9fa; border-radius: 8px; padding: 20px; margin: 15px 0; }
+        .flow-step { display: flex; align-items: center; margin: 10px 0; }
+        .flow-step .num { background: #e67e22; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-weight: bold; }
+        .flow-arrow { text-align: center; color: #e67e22; font-size: 1.5em; }
+        .code-block { background: #2c3e50; color: #ecf0f1; padding: 15px; border-radius: 6px; font-family: 'Courier New', monospace; font-size: 0.9em; overflow-x: auto; margin: 10px 0; }
+        .highlight { background: #fff3cd; padding: 2px 6px; border-radius: 3px; }
+        .component-tree { background: #f8f9fa; padding: 20px; border-radius: 6px; font-family: monospace; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: #e67e22; color: white; }
+        tr:hover { background: #f5f5f5; }
+        .badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 0.8em; font-weight: bold; }
+        .badge.hook { background: #d4edda; color: #155724; }
+        .badge.component { background: #cce5ff; color: #004085; }
+        .badge.util { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🍽️ Namaste Food (React-Rest)</h1>
+        <p class="subtitle">A food ordering application built with React, Redux, and Firebase</p>
+
+        <div class="card">
+            <h2>🎯 Project Overview</h2>
+            <p><strong>Namaste Food</strong> is a Swiggy-clone food delivery web application that allows users to browse restaurants, view menus, search for food, and manage a shopping cart. The app fetches live data from the Swiggy public API and uses Redux for state management.</p>
+            <br>
+            <p>It demonstrates core React concepts including <span class="highlight">component composition</span>, <span class="highlight">hooks</span>, <span class="highlight">routing</span>, <span class="highlight">state management</span>, and <span class="highlight">API integration</span>.</p>
+        </div>
+
+        <div class="card">
+            <h2>⚙️ Tech Stack</h2>
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <strong>React 18</strong>
+                    <span>UI Framework with Hooks</span>
+                </div>
+                <div class="tech-item">
+                    <strong>React Router DOM v6</strong>
+                    <span>Client-side routing</span>
+                </div>
+                <div class="tech-item">
+                    <strong>Redux Toolkit</strong>
+                    <span>Global state management</span>
+                </div>
+                <div class="tech-item">
+                    <strong>Tailwind CSS</strong>
+                    <span>Utility-first styling</span>
+                </div>
+                <div class="tech-item">
+                    <strong>Parcel 2</strong>
+                    <span>Bundle & build tool</span>
+                </div>
+                <div class="tech-item">
+                    <strong>Firebase</strong>
+                    <span>Analytics & hosting</span>
+                </div>
+                <div class="tech-item">
+                    <strong>Jest</strong>
+                    <span>Unit testing framework</span>
+                </div>
+                <div class="tech-item">
+                    <strong>Swiggy API</strong>
+                    <span>Live restaurant data</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🏗️ Component Architecture</h2>
+            <div class="component-tree">
+                <pre>
+App.js (Root)
+└── AppLayout
+    ├── Header (Logo, Nav, Cart, Login)
+    └── Outlet (Routes)
+        ├── Body
+        │   ├── SearchBar
+        │   └── RestaurantContainer
+        │       └── RestaurantCard[]
+        ├── About
+        ├── Contact
+        ├── RestaurantMenu
+        │   └── RestaurantCategory[]
+        │       └── ItemList[]
+        └── Cart
+            └── ItemList[]</pre>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🔄 Data Flow</h2>
+            <div class="flow-diagram">
+                <div class="flow-step">
+                    <div class="num">1</div>
+                    <div>User opens app → <code>AppLayout</code> renders</div>
+                </div>
+                <div class="flow-step">
+                    <div class="num">2</div>
+                    <div><code>Body.js</code> calls <code>useResData()</code> → fetches from Swiggy API</div>
+                </div>
+                <div class="flow-step">
+                    <div class="num">3</div>
+                    <div>Data flows into <code>RestaurantCard</code> components via props</div>
+                </div>
+                <div class="flow-step">
+                    <div class="num">4</div>
+                    <div>User clicks restaurant → Router navigates to <code>/restaurants/:resId</code></div>
+                </div>
+                <div class="flow-step">
+                    <div class="num">5</div>
+                    <div><code>useRestaurantMenu()</code> fetches menu data by <code>resId</code></div>
+                </div>
+                <div class="flow-step">
+                    <div class="num">6</div>
+                    <div>Menu items rendered as collapsible <code>RestaurantCategory</code> sections</div>
+                </div>
+                <div class="flow-step">
+                    <div class="num">7</div>
+                    <div>"Add+" button dispatches <code>addItem()</code> to Redux store → Cart updates</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>📁 Key Files & Responsibilities</h2>
+            <table>
+                <tr>
+                    <th>File</th>
+                    <th>Responsibility</th>
+                </tr>
+                <tr>
+                    <td><code>src/App.js</code></td>
+                    <td>Router setup, AppLayout wrapper with Redux Provider</td>
+                </tr>
+                <tr>
+                    <td><code>src/components/Header.js</code></td>
+                    <td>Navigation, online status indicator, cart count, login/logout</td>
+                </tr>
+                <tr>
+                    <td><code>src/components/Body.js</code></td>
+                    <td>Search functionality, fetches & displays restaurant list</td>
+                </tr>
+                <tr>
+                    <td><code>src/components/RestaurantCard.js</code></td>
+                    <td>Display component for individual restaurant info</td>
+                </tr>
+                <tr>
+                    <td><code>src/components/RestaurantMenu.js</code></td>
+                    <td>Fetches menu, renders category accordion</td>
+                </tr>
+                <tr>
+                    <td><code>src/components/Cart.js</code></td>
+                    <td>Displays cart items from Redux store, clear button</td>
+                </tr>
+                <tr>
+                    <td><code>src/utils/useResData.js</code></td>
+                    <td>Custom hook: fetches restaurants, handles loading</td>
+                </tr>
+                <tr>
+                    <td><code>src/utils/useRestuarantMenu.js</code></td>
+                    <td>Custom hook: fetches menu by restaurant ID</td>
+                </tr>
+                <tr>
+                    <td><code>src/utils/cartSlice.js</code></td>
+                    <td>Redux slice: addItem, removeItem, clearCart</td>
+                </tr>
+                <tr>
+                    <td><code>src/utils/useOnlineStatus.js</code></td>
+                    <td>Custom hook: tracks online/offline via navigator.onLine</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>🌐 API Endpoints Used</h2>
+            <table>
+                <tr>
+                    <th>Endpoint</th>
+                    <th>Purpose</th>
+                </tr>
+                <tr>
+                    <td><code>/dapi/restaurants/list/v5</code></td>
+                    <td>Fetches list of restaurants with ratings, cuisines, delivery time</td>
+                </tr>
+                <tr>
+                    <td><code>/dapi/menu/pl?page-type=...&restaurantId=</code></td>
+                    <td>Fetches restaurant menu with categories and items</td>
+                </tr>
+            </table>
+            <p style="margin-top:10px; color:#666; font-size:0.9em;">Note: Both endpoints are Swiggy's internal APIs. Coordinates are hardcoded to Delhi, India (lat: 28.4808184, lng: 77.5177682).</p>
+        </div>
+
+        <div class="card">
+            <h2>🧪 Testing Setup</h2>
+            <p>The project uses <strong>Jest</strong> with <strong>@testing-library/react</strong> for unit testing. A sample test exists in <code>src/components/__tests__/sum.test.js</code>.</p>
+            <div class="code-block">
+npm test
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🚀 Deployment</h2>
+            <p>The app is deployed on <strong>GitHub Pages</strong> via the <code>gh-pages</code> package and <strong>Firebase Hosting</strong>.</p>
+            <div class="code-block">
+npm run build    # Build with Parcel
+npm run deploy   # Deploy to GitHub Pages
+            </div>
+            <p style="margin-top:10px;">Live URL: <a href="https://Harsh-91221.github.io/React-Rest" style="color:#e67e22;">Harsh-91221.github.io/React-Rest</a></p>
+        </div>
+    </div>
+</body>
+</html>
