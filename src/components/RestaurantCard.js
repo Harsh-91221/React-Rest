@@ -1,8 +1,10 @@
 import { CDN_URL } from "../utils/constants";
 const RestaurantCard = (props) => {
     const { resData } = props;
-    const { name, cuisines, avgRating, costForTwo, slaString, cloudinaryImageId } = resData?.info;
-    
+    const { name, cuisines, avgRating, costForTwo, sla, cloudinaryImageId } = resData?.info;
+    const distance = sla?.lastMileTravelString || '';
+    const deliveryTime = sla?.slaString || '';
+
     const handleImageError = (e) => {
         e.target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop";
     };
@@ -10,9 +12,9 @@ const RestaurantCard = (props) => {
     return (
         <div className="restaurant-card">
             <div className="card-image-wrapper">
-                <img 
-                    className="card-image" 
-                    src={cloudinaryImageId}
+                <img
+                    className="card-image"
+                    src={CDN_URL + cloudinaryImageId}
                     alt={name}
                     onError={handleImageError}
                 ></img>
@@ -20,9 +22,9 @@ const RestaurantCard = (props) => {
                     <span className="star">★</span>
                     <span>{avgRating}</span>
                 </div>
-                {slaString && (
+                {distance && (
                     <div className="card-badge time">
-                        {slaString}
+                        {distance}
                     </div>
                 )}
             </div>
@@ -31,6 +33,9 @@ const RestaurantCard = (props) => {
                 <p className="card-cuisines">{cuisines.join(", ")}</p>
                 <div className="card-footer">
                     <span className="card-cost">{costForTwo}</span>
+                    {deliveryTime && (
+                        <span className="card-time">{deliveryTime}</span>
+                    )}
                 </div>
             </div>
         </div>
