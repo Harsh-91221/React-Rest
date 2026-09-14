@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import RestaurantCard from "./RestaurantCard";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
@@ -9,19 +9,32 @@ import useResData from "../utils/useResData";
 const Body = () => {
     const [searchText, setSearchText] = useState("");
     const [selectedCategory, setSelectedCategory] = useState(null);
-    const { allRestaurants, filteredRestaurants, categories, loading, error } = useResData();
+    const [filteredRestaurants, setFilteredRestaurants] = useState([]);
+    const { allRestaurants, categories, loading, error } = useResData();
     const isOnline = useOnlineStatus();
 
-    const handleSearch = () => {
+    // Apply search and category filters
+    useEffect(() => {
+        let result = allRestaurants;
+        
+        // Apply category filter - match cuisines to category
+        if (selectedCategory) {
+            result = result.filter(r => 
+                r.info.cuisines.some(cuisine => 
+                    cuisine.toLowerCase() === selectedCategory.toLowerCase()
+                )
+            );
+        }
+        
+        // Apply search filter
         if (searchText.trim() !== "") {
-            const filtered = allRestaurants.filter(r => 
+            result = result.filter(r => 
                 r.info.name.toLowerCase().includes(searchText.toLowerCase())
             );
-            setFilteredRestaurants(filtered);
-        } else {
-            setFilteredRestaurants(allRestaurants);
         }
-    };
+        
+        setFilteredRestaurants(result);
+    }, [allRestaurants, selectedCategory, searchText]);
 
     const handleCategoryClick = (category) => {
         setSelectedCategory(category === selectedCategory ? null : category);
@@ -54,9 +67,40 @@ const Body = () => {
                         value={searchText}
                         onChange={(e) => setSearchText(e.target.value)}
                     />
-                    <button className="search-btn" onClick={handleSearch}>
+                    <button className="search-btn" onClick={() => {}}>
                         🔍
                     </button>
+                </div>
+
+                {/* Veg/Non-Veg Toggle */}
+                <div className="diet-toggle-container">
+                    <button 
+                        className={`diet-toggle ${selectedCategory === 'Chicken' ? 'active' : ''}`}
+                        onClick={() => handleCategoryClick('Chicken')}
+                    >
+                        🍗 Non-Veg
+                    </button>
+                    <button 
+                        className={`diet-toggle ${selectedCategory === 'Vegetarian' ? 'active' : ''}`}
+                        onClick={() => handleCategoryClick('Vegetarian')}
+                    >
+                        🥬 Veg
+                    </button>
+                </div>
+
+                {/* Theme Toggle */}
+                <div className="theme-toggle-container">
+                    <label className="theme-toggle-label">Dark Mode</label>
+                    <button 
+                        className="theme-toggle-switch"
+                        onClick={() => {
+                            const html = document.documentElement;
+                            html.classList.toggle('dark-mode');
+                        }}
+                    >
+                        <span className="theme-toggle-thumb"></span>
+                    </button>
+                    <label className="theme-toggle-label">Light Mode</label>
                 </div>
 
                 {/* Category Filter */}
