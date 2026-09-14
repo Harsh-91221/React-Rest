@@ -92,7 +92,7 @@ const Login = () => {
                     <form onSubmit={handleSubmit} className="login-form">
                         {!isLogin && (
                             <div className="form-group">
-                                <label className="form-label">Full Name</label>
+                                <label className="form-label pl-2">Full Name</label>
                                 <div className="input-wrapper">
                                     <FontAwesomeIcon icon={faUser} className="input-icon" />
                                     <input
@@ -107,12 +107,12 @@ const Login = () => {
                         )}
 
                         <div className="form-group">
-                            <label className="form-label">Email Address</label>
+                            <label className="form-label pl-2">Email Address</label>
                             <div className="input-wrapper">
                                 <FontAwesomeIcon icon={faEnvelope} className="input-icon" />
                                 <input
                                     type="email"
-                                    className="form-input"
+                                    className="form-input pl-2"
                                     placeholder="you@example.com"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
@@ -121,7 +121,7 @@ const Login = () => {
                         </div>
 
                         <div className="form-group">
-                            <label className="form-label">Password</label>
+                            <label className="form-label pl-2">Password</label>
                             <div className="input-wrapper">
                                 <FontAwesomeIcon icon={faLock} className="input-icon" />
                                 <input
