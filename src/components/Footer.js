@@ -23,9 +23,9 @@ const Footer = () => {
                 <div className="footer-section">
                     <h4>Contact Us</h4>
                     <ul>
-                        <li>Email: hello@namastefood.com</li>
-                        <li>Phone: +91 98765 43210</li>
-                        <li>Address: 123 Food Street, Delhi, India</li>
+                        <li>Email: harshch91221@gmail.com</li>
+                        <li>Phone: +91 7906652880</li>
+                        <li>Address: 123 Noir Table, Delhi, India</li>
                     </ul>
                 </div>
                 <div className="footer-section">

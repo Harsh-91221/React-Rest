@@ -34,29 +34,6 @@ const About = () => {
                     />
                 </div>
             </div>
-
-            <div className="about-features">
-                <div className="feature-card">
-                    <div className="feature-icon">🍳</div>
-                    <h3>Wide Variety</h3>
-                    <p>Explore recipes from multiple cuisines including Italian, Asian, American, and more.</p>
-                </div>
-                <div className="feature-card">
-                    <div className="feature-icon">📹</div>
-                    <h3>Video Tutorials</h3>
-                    <p>Watch step-by-step video guides to master every dish perfectly.</p>
-                </div>
-                <div className="feature-card">
-                    <div className="feature-icon">🥘</div>
-                    <h3>Complete Ingredients</h3>
-                    <p>Get detailed ingredient lists with precise measurements for each recipe.</p>
-                </div>
-                <div className="feature-card">
-                    <div className="feature-icon">⭐</div>
-                    <h3>Top Rated</h3>
-                    <p>Discover highly-rated recipes loved by food enthusiasts worldwide.</p>
-                </div>
-            </div>
         </div>
     );
 };
