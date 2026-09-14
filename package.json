@@ -8,7 +8,7 @@
     "deploy": "gh-pages -d dist",
     "start": "parcel public/index.html",
     "build": "parcel build public/index.html",
-    "postbuild": "powershell -Command \"if (-not (Test-Path 'dist/Docs')) { New-Item -ItemType Directory -Path 'dist/Docs' -Force }; Copy-Item -Path 'Docs/*' -Destination 'dist/Docs/' -Recurse -Force\"",
+    "postbuild": "node -e \"const fs=require('fs');fs.mkdirSync('dist/Docs',{recursive:true});fs.cpSync('Docs','dist/Docs',{recursive:true,force:true})\"",
     "test": "jest"
   },
   "author": "",
