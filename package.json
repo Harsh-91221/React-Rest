@@ -7,7 +7,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "start": "parcel public/index.html",
-    "build": "parcel build public/index.html",
+    "build": "parcel build public/index.html --public-url /React-Rest",
     "postbuild": "node -e \"const fs=require('fs');fs.mkdirSync('dist/Docs',{recursive:true});fs.cpSync('Docs','dist/Docs',{recursive:true,force:true})\"",
     "test": "jest"
   },
