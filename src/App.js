@@ -24,8 +24,7 @@ const AppLayout = () => {
         </Provider>
     );
 };
-const appRouter = createBrowserRouter([
-    {
+const appRouter = createBrowserRouter([{
         path: "/",
         element: <AppLayout />,
         children: [
