@@ -215,6 +215,27 @@ html.light-mode .theme-toggle-thumb {
     box-shadow: 0 0 30px rgba(255, 107, 53, 0.5);
 }
 
+/* Logo - White for dark mode visibility */
+.logo {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid var(--color-primary);
+    box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+    transition: all var(--transition-base);
+}
+
+html.dark-mode .logo {
+    filter: brightness(0) invert(1);
+    opacity: 0.95;
+}
+
+html.light-mode .logo {
+    filter: none;
+    opacity: 1;
+}
+
 .logo-text h1 {
     font-family: 'Playfair Display', serif;
     font-size: 24px;
