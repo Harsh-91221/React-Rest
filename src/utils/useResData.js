@@ -1,52 +1,46 @@
 import { useEffect, useState } from "react";
+import MOCK_RESTAURANTS from "./mockData";
 
 const useResData = (API_URL) => {
     const [allRestaurants, setAllRestaurants] = useState([]);
     const [filteredRestaurants, setFilteredRestaurants] = useState([]);
 
-    // use useEffect for one time call getRestaurants using empty dependency array
     useEffect(() => {
         getRestaurants();
     }, []);
 
-    // async function getRestaurant to fetch API data
     async function getRestaurants() {
-        // handle the error using try... catch
         try {
-            const response = await fetch(API_URL);
-            // if response is not ok then throw new Error
+            const response = await fetch(API_URL, {
+                headers: {
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+                    "Referer": "https://www.swiggy.com",
+                },
+            });
+
             if (!response.ok) {
-                const err = response.status;
-                throw new Error(err);
+                throw new Error(`HTTP ${response.status}`);
+            }
+
+            const json = await response.json();
+            const restaurants = json?.data?.cards?.flatMap(card => 
+                card?.card?.card?.gridElements?.infoWithStyle?.restaurants || []
+            ).filter(r => r !== undefined);
+
+            if (restaurants.length > 0) {
+                setAllRestaurants(restaurants);
+                setFilteredRestaurants(restaurants);
             } else {
-                const json = await response.json();
-
-                // initialize checkJsonData() function to check Swiggy Restaurant data
-                async function checkJsonData(jsonData) {
-                    for (let i = 0; i < jsonData?.data?.cards.length; i++) {
-
-                        // initialize checkData for Swiggy Restaurant data
-                        let checkData = json?.data?.cards[i]?.card?.card?.gridElements?.infoWithStyle?.restaurants;
-
-                        // if checkData is not undefined then return it
-                        if (checkData !== undefined) {
-                            return checkData;
-                        }
-                    }
-                }
-
-                // call the checkJsonData() function which return Swiggy Restaurant data
-                const resData = await checkJsonData(json);
-
-                // update the state variable restaurants with Swiggy API data
-                setAllRestaurants(resData);
-                setFilteredRestaurants(resData);
+                throw new Error("No restaurants in response");
             }
         } catch (error) {
-            console.error(error); // show error in console
+            console.warn("API unavailable, using mock data:", error.message);
+            setAllRestaurants(MOCK_RESTAURANTS);
+            setFilteredRestaurants(MOCK_RESTAURANTS);
         }
     }
-    return [allRestaurants, filteredRestaurants]; // return allRestaurants & filteredRestaurants data
+
+    return [allRestaurants, filteredRestaurants];
 };
 
 export default useResData;
