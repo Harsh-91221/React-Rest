@@ -58,16 +58,17 @@ const Header = () => {
             
             <div className="header-controls">
                 {/* Theme Toggle */}
-                <button 
-                    className="theme-toggle" 
+                <button
+                    className={`theme-toggle ${isDarkMode ? "dark" : "light"}`}
                     onClick={toggleTheme}
                     aria-label="Toggle theme"
                 >
-                    {isDarkMode ? (
-                        <FontAwesomeIcon icon={faSun} className="theme-icon" />
-                    ) : (
-                        <FontAwesomeIcon icon={faMoon} className="theme-icon" />
-                    )}
+                    <span className="theme-slider">
+                        <FontAwesomeIcon
+                            icon={isDarkMode ? faSun : faMoon}
+                            className="theme-icon"
+                        />
+                    </span>
                 </button>
                 
                 <nav>
