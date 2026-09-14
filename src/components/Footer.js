@@ -6,7 +6,7 @@ const Footer = () => {
         <footer className="footer">
             <div className="footer-container">
                 <div className="footer-section">
-                    <h4>Namaste Food</h4>
+                    <h4>Noir Table</h4>
                     <p>
                         Discover the best restaurants and order delicious food delivered to your doorstep.
                     </p>
@@ -38,7 +38,7 @@ const Footer = () => {
                 </div>
             </div>
             <div className="footer-bottom">
-                <p>&copy; 2024 Namaste Food. All rights reserved.</p>
+                <p>&copy; 2024 Noir Table. All rights reserved.</p>
             </div>
         </footer>
     );

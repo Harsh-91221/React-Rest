@@ -14,9 +14,8 @@ const About = () => {
                     </h2>
                     <p className="tagline">"Where Every Bite Tells a Story"</p>
                     <p>
-                        Welcome to Namaste Food, your ultimate destination for discovering 
-                        delicious meals from around the world. We bring you a curated 
-                        collection of recipes that celebrate diverse cuisines and flavors.
+                        Welcome to Noir Table, your ultimate destination for discovering 
+                        exquisite cuisine from the world's finest chefs.
                     </p>
                     <p>
                         From hearty comfort foods to exotic delicacies, explore hundreds 
