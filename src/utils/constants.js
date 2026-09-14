@@ -1,5 +1,15 @@
-export const CDN_URL = "https://www.themealdb.com/images/media/meals/";
-export const LOGO_URL = "https://img.freepik.com/free-vector/restaurant-logo-template_23-2149449826.jpg?w=740&t=st=1701900529~exp=1701901129~hmac=81bb22641d6d76f7c0d702bf1c77eaef";
-export const MENU_API = "https://www.themealdb.com/api/json/v1/1/lookup.php?i=";
-export const API_URL = "https://www.themealdb.com/api/json/v1/1/filter.php?c=";
-export const CATEGORIES_URL = "https://www.themealdb.com/api/json/v1/1/list.php?c=list";
+// Swiggy API URLs using FoodFire server (bypasses CORS)
+export const FOODFIRE_API_URL = "https://foodfire.onrender.com/swiggy/restaurants?lat=21.1702401&lng=72.83106070000001&page_type=DESKTOP_WEB_LISTING";
+export const FOODFIRE_MENU_API_URL = "https://foodfire.onrender.com/swiggy/menu?page-type=REGULAR_MENU&complete-menu=true&lat=21.1702401&lng=72.83106070000001&restaurantId=";
+
+// Swiggy CDN for images (backward compatibility with CDN_URL)
+export const CDN_URL = "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_508,h_320,c_fill/";
+export const IMG_CDN_URL = "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_508,h_320,c_fill/";
+export const ITEM_IMG_CDN_URL = "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_208,h_208,c_fit/";
+
+// Menu item type keys
+export const MENU_ITEM_TYPE_KEY = "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory";
+export const RESTAURANT_TYPE_KEY = "type.googleapis.com/swiggy.presentation.food.v2.Restaurant";
+
+// Logo URL
+export const LOGO_URL = "https://raw.githubusercontent.com/chetannada/Namaste-React/main/Chapter%2001%20-%20Inception/Images/logo.png";

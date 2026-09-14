@@ -2,126 +2,103 @@ import React, { useState } from "react";
 import Shimmer from "./Shimmer";
 import { useParams } from "react-router-dom";
 import useRestaurantMenu from "../utils/useRestuarantMenu";
+import { IMG_CDN_URL, ITEM_IMG_CDN_URL } from "../utils/constants";
 
 const RestaurantMenu = () => {
     const { resId } = useParams();
-    const { resInfo, loading, error } = useRestaurantMenu(resId);
+    const { restaurant, menuItems, loading, error } = useRestaurantMenu(resId);
     const [showAll, setShowAll] = useState(false);
 
     if (loading) {
         return <Shimmer />;
     }
 
-    if (error || !resInfo) {
+    if (error || !restaurant) {
         return (
             <div className="error-container-page">
                 <h1>404</h1>
-                <h2>Recipe not found</h2>
-                <p>The recipe you're looking for doesn't exist or couldn't be loaded.</p>
+                <h2>Restaurant not found</h2>
+                <p>The restaurant you're looking for doesn't exist or couldn't be loaded.</p>
                 <a href="/React-Rest/" className="back-btn">Back to Home</a>
             </div>
         );
     }
 
-    // Parse ingredients from API
-    const ingredients = [];
-    for (let i = 1; i <= 20; i++) {
-        const ingredient = resInfo[`strIngredient${i}`];
-        const measure = resInfo[`strMeasure${i}`];
-        if (ingredient && ingredient.trim()) {
-            ingredients.push({
-                name: ingredient,
-                measure: measure || ""
-            });
-        }
-    }
-
-    // Format instructions
-    const formattedInstructions = resInfo.strInstructions
-        ? resInfo.strInstructions
-              .split(/\r?\n/)
-              .filter(line => line.trim())
-              .map((line, idx) => <p key={idx} className="instruction-step">{line.replace(/^\d+\.\s*/, '')}</p>)
-        : [];
-
-    const displayInstructions = showAll ? formattedInstructions : formattedInstructions.slice(0, 5);
-
     return (
         <div className="menu-container">
+            {/* Restaurant Header */}
             <div className="menu-header">
                 <img 
-                    src={resInfo.strMealThumb} 
-                    alt={resInfo.strMeal} 
+                    src={IMG_CDN_URL + restaurant?.cloudinaryImageId} 
+                    alt={restaurant?.name} 
                     className="menu-image"
+                    onError={(e) => {
+                        e.target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop";
+                    }}
                 />
                 <div className="menu-info">
-                    <h1 className="menu-title">{resInfo.strMeal}</h1>
+                    <h1 className="menu-title">{restaurant?.name}</h1>
                     <div className="menu-meta">
-                        {resInfo.strCategory && (
-                            <span className="menu-category">{resInfo.strCategory}</span>
+                        {restaurant?.avgRating && (
+                            <span className="menu-rating">⭐ {restaurant?.avgRating} ({restaurant?.totalRatingsString})</span>
                         )}
-                        {resInfo.strArea && (
-                            <span className="menu-area">{resInfo.strArea}</span>
+                        {restaurant?.costForTwo && (
+                            <span className="menu-cost">{restaurant?.costForTwo}</span>
                         )}
-                    </div>
-                    <div className="instructions-preview">
-                        {displayInstructions}
-                        {formattedInstructions.length > 5 && (
-                            <button 
-                                className="show-more-btn"
-                                onClick={() => setShowAll(!showAll)}
-                            >
-                                {showAll ? "Show Less" : "Show More"}
-                            </button>
+                        {restaurant?.sla?.slaString && (
+                            <span className="menu-time">{restaurant?.sla?.slaString}</span>
                         )}
                     </div>
+                    {restaurant?.cuisines && (
+                        <p className="menu-cuisines">{restaurant.cuisines.join(", ")}</p>
+                    )}
+                    {restaurant?.address && (
+                        <p className="menu-address">{restaurant.address}</p>
+                    )}
                 </div>
             </div>
 
-            {ingredients.length > 0 && (
-                <div className="menu-section">
-                    <h2 className="section-title">Ingredients</h2>
-                    <div className="ingredients-grid">
-                        {ingredients.map((ing, index) => (
-                            <div key={index} className="ingredient-item">
-                                <span className="ingredient-name">{ing.name}</span>
-                                <span className="ingredient-measure">{ing.measure}</span>
+            {/* Menu Items */}
+            <div className="menu-section">
+                <h2 className="section-title">Menu ({menuItems.length})</h2>
+                <div className="menu-items-list">
+                    {menuItems.map((item) => (
+                        <div key={item.id} className="menu-item-card">
+                            <div className="menu-item-info">
+                                <h4 className="menu-item-name">{item.name}</h4>
+                                {item.price && (
+                                    <span className="menu-item-price">
+                                        ₹{item.price / 100}
+                                    </span>
+                                )}
+                                {item.rating && (
+                                    <span className="menu-item-rating">⭐ {item.rating.avgRating}</span>
+                                )}
+                                {item.description && (
+                                    <p className="menu-item-description">{item.description}</p>
+                                )}
                             </div>
-                        ))}
-                    </div>
+                            {item.imageId && (
+                                <img 
+                                    className="menu-item-image"
+                                    src={ITEM_IMG_CDN_URL + item.imageId}
+                                    alt={item.name}
+                                    onError={(e) => {
+                                        e.target.style.display = 'none';
+                                    }}
+                                />
+                            )}
+                            <button className="add-to-cart-btn">
+                                Add to Cart
+                            </button>
+                        </div>
+                    ))}
                 </div>
-            )}
+            </div>
 
-            {resInfo.strYoutube && (
-                <div className="menu-section">
-                    <h2 className="section-title">Watch Tutorial</h2>
-                    <div className="video-container">
-                        <iframe
-                            width="100%"
-                            height="400"
-                            src={resInfo.strYoutube.replace('watch?v=', 'embed/')}
-                            title="Recipe Video"
-                            frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen
-                        ></iframe>
-                    </div>
-                </div>
-            )}
-
-            <div className="menu-links">
-                {resInfo.strTags && (
-                    <div className="tags">
-                        {resInfo.strTags.split(',').map((tag, index) => (
-                            <span key={index} className="tag">{tag.trim()}</span>
-                        ))}
-                    </div>
-                )}
-                {resInfo.strSource && (
-                    <a href={resInfo.strSource} target="_blank" rel="noopener noreferrer" className="source-link">
-                        Original Recipe
-                    </a>
-                )}
+            {/* Back Button */}
+            <div className="menu-footer">
+                <a href="/React-Rest/" className="back-btn">← Back to Restaurants</a>
             </div>
         </div>
     );

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import RestaurantCard from "./RestaurantCard";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
@@ -8,36 +8,28 @@ import useResData from "../utils/useResData";
 
 const Body = () => {
     const [searchText, setSearchText] = useState("");
-    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [allRestaurants, setAllRestaurants] = useState([]);
     const [filteredRestaurants, setFilteredRestaurants] = useState([]);
-    const { allRestaurants, categories, loading, error } = useResData();
+    const { allRestaurants: fetchedRestaurants, loading, error } = useResData();
     const isOnline = useOnlineStatus();
 
-    // Apply search and category filters
-    useEffect(() => {
-        let result = allRestaurants;
-        
-        // Apply category filter - match cuisines to category
-        if (selectedCategory) {
-            result = result.filter(r => 
-                r.info.cuisines.some(cuisine => 
-                    cuisine.toLowerCase() === selectedCategory.toLowerCase()
-                )
-            );
+    // Update local state when data is fetched
+    React.useEffect(() => {
+        if (fetchedRestaurants && fetchedRestaurants.length > 0) {
+            setAllRestaurants(fetchedRestaurants);
+            setFilteredRestaurants(fetchedRestaurants);
         }
-        
-        // Apply search filter
-        if (searchText.trim() !== "") {
-            result = result.filter(r => 
-                r.info.name.toLowerCase().includes(searchText.toLowerCase())
-            );
-        }
-        
-        setFilteredRestaurants(result);
-    }, [allRestaurants, selectedCategory, searchText]);
+    }, [fetchedRestaurants]);
 
-    const handleCategoryClick = (category) => {
-        setSelectedCategory(category === selectedCategory ? null : category);
+    const handleSearch = () => {
+        if (searchText.trim() !== "") {
+            const filtered = allRestaurants.filter(r => 
+                r?.info?.name.toLowerCase().includes(searchText.toLowerCase())
+            );
+            setFilteredRestaurants(filtered);
+        } else {
+            setFilteredRestaurants(allRestaurants);
+        }
     };
 
     if (!isOnline) {
@@ -63,28 +55,12 @@ const Body = () => {
                     <input
                         type="text"
                         className="search-input"
-                        placeholder="Search for a meal..."
+                        placeholder="Search for a restaurant..."
                         value={searchText}
                         onChange={(e) => setSearchText(e.target.value)}
                     />
-                    <button className="search-btn" onClick={() => {}}>
+                    <button className="search-btn" onClick={handleSearch}>
                         🔍
-                    </button>
-                </div>
-
-                {/* Veg/Non-Veg Toggle */}
-                <div className="diet-toggle-container">
-                    <button 
-                        className={`diet-toggle ${selectedCategory === 'Chicken' ? 'active' : ''}`}
-                        onClick={() => handleCategoryClick('Chicken')}
-                    >
-                        🍗 Non-Veg
-                    </button>
-                    <button 
-                        className={`diet-toggle ${selectedCategory === 'Vegetarian' ? 'active' : ''}`}
-                        onClick={() => handleCategoryClick('Vegetarian')}
-                    >
-                        🥬 Veg
                     </button>
                 </div>
 
@@ -103,24 +79,6 @@ const Body = () => {
                     <label className="theme-toggle-label">Light Mode</label>
                 </div>
 
-                {/* Category Filter */}
-                {!loading && categories.length > 0 && (
-                    <div className="category-filter">
-                        <h2 className="filter-title">Browse by Category</h2>
-                        <div className="category-list">
-                            {categories.map((cat) => (
-                                <button
-                                    key={cat.strCategory}
-                                    className={`category-btn ${selectedCategory === cat.strCategory ? 'active' : ''}`}
-                                    onClick={() => handleCategoryClick(cat.strCategory)}
-                                >
-                                    {cat.strCategory}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-                )}
-
                 {/* Loading State */}
                 {loading ? (
                     <Shimmer />
@@ -134,8 +92,8 @@ const Body = () => {
                         <div className="restaurant-list">
                             {filteredRestaurants.map((restaurant) => (
                                 <Link 
-                                    key={restaurant.info.id} 
-                                    to={`/restaurants/${restaurant.info.id}`}
+                                    key={restaurant?.info?.id} 
+                                    to={`/restaurants/${restaurant?.info?.id}`}
                                     className="restaurant-link"
                                 >
                                     <RestaurantCard resData={restaurant} />
@@ -145,7 +103,7 @@ const Body = () => {
 
                         {filteredRestaurants.length === 0 && (
                             <div className="empty-state">
-                                <p>No meals found. Try a different category or search term.</p>
+                                <p>No restaurants found. Try a different search term.</p>
                             </div>
                         )}
                     </>
