@@ -7,7 +7,7 @@ const Footer = () => {
             <div className="footer-container">
                 <div className="footer-section">
                     <h4>Namaste Food</h4>
-                    <p style={{ color: "#b0b0b0", lineHeight: "1.6" }}>
+                    <p>
                         Discover the best restaurants and order delicious food delivered to your doorstep.
                     </p>
                 </div>
@@ -31,9 +31,9 @@ const Footer = () => {
                 <div className="footer-section">
                     <h4>Follow Us</h4>
                     <ul>
-                        <li><a href="#" style={{ color: "#b0b0b0", textDecoration: "none" }}>Facebook</a></li>
-                        <li><a href="#" style={{ color: "#b0b0b0", textDecoration: "none" }}>Twitter</a></li>
-                        <li><a href="#" style={{ color: "#b0b0b0", textDecoration: "none" }}>Instagram</a></li>
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Instagram</a></li>
                     </ul>
                 </div>
             </div>

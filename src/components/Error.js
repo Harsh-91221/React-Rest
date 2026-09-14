@@ -3,10 +3,13 @@ const Error = () => {
     const err = useRouteError();
     console.log(err);
     return (
-        <div>
-            <h1>Opps!!!</h1>
+        <div className="error-container-page">
+            <h1>Oops!</h1>
             <h2>Something went wrong</h2>
             <h3>{err.status}:{err.statusText}</h3>
+            <a href="/React-Rest/" className="checkout-btn" style={{ marginTop: '24px', display: 'inline-block' }}>
+                Back to Home
+            </a>
         </div>
     );
 };

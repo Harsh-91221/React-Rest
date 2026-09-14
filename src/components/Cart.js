@@ -1,6 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import ItemList from "./ItemList";
 import { clearCart } from "../utils/cartSlice";
+import { Link } from "react-router-dom";
+
 const Cart = () => {
     const cartItems = useSelector((store) => store.cart.items);
     const dispatch = useDispatch();
@@ -38,5 +40,4 @@ const Cart = () => {
     );
 };
 
-import { Link } from "react-router-dom";
 export default Cart;
