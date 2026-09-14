@@ -11,5 +11,5 @@ export const ITEM_IMG_CDN_URL = "https://media-assets.swiggy.com/swiggy/image/up
 export const MENU_ITEM_TYPE_KEY = "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory";
 export const RESTAURANT_TYPE_KEY = "type.googleapis.com/swiggy.presentation.food.v2.Restaurant";
 
-// Logo URL - Noir Table elegant fork and knife icon
-export const LOGO_URL = "https://cdn-icons-png.flaticon.com/512/2935/2935207.png";
+// Logo URL - White elegant fork and knife icon for visibility in both modes
+export const LOGO_URL = "https://cdn-icons-png.flaticon.com/512/9383/9383879.png";
