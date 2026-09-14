@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noir Table — Database Schema & API Reference</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #0d1117; color: #e6edf3; line-height: 1.7; }
+        .container { max-width: 960px; margin: 0 auto; padding: 40px 24px; }
+
+        .hero { text-align: center; padding: 40px 0 36px; border-bottom: 1px solid #21262d; margin-bottom: 36px; }
+        .hero h1 { font-size: 2em; color: #ff6b35; margin-bottom: 6px; }
+        .hero .tagline { color: #8b949e; font-size: 1em; }
+
+        h2 { font-size: 1.3em; color: #ff9f43; margin: 32px 0 14px; padding-bottom: 8px; border-bottom: 1px solid #21262d; display: flex; align-items: center; gap: 10px; }
+        h3 { font-size: 1em; color: #79c0ff; margin: 18px 0 8px; }
+
+        .card { background: #161b22; border: 1px solid #21262d; border-radius: 10px; padding: 22px; margin-bottom: 18px; }
+        .card p { color: #8b949e; font-size: 0.9em; margin-bottom: 10px; }
+
+        table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 0.88em; }
+        th { background: #1f6feb22; color: #58a6ff; padding: 9px 12px; text-align: left; border: 1px solid #21262d; font-weight: 600; }
+        td { padding: 8px 12px; border: 1px solid #21262d; color: #c9d1d9; }
+        tr:hover td { background: #1c2128; }
+
+        code { background: #1f6feb22; color: #79c0ff; padding: 1px 6px; border-radius: 4px; font-family: 'Cascadia Code', monospace; font-size: 0.9em; }
+        .api-url { background: #0d1117; color: #3fb950; padding: 11px 14px; border-radius: 8px; font-family: 'Cascadia Code', monospace; font-size: 0.8em; word-break: break-all; margin: 8px 0; border: 1px solid #21262d; }
+
+        .badge { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 0.75em; font-weight: 600; }
+        .badge.api { background: #23863633; color: #3fb950; }
+        .badge.state { background: #8957e533; color: #d2a8ff; }
+        .badge.req { background: #f8514933; color: #f85149; }
+
+        .note { background: #f0f6fc1a; border-left: 3px solid #58a6ff; padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 14px 0; font-size: 0.88em; color: #8b949e; }
+        .note strong { color: #58a6ff; }
+
+        .field-row { display: flex; gap: 12px; padding: 7px 12px; margin: 3px 0; border-radius: 4px; background: #0d1117; align-items: center; }
+        .field-type { color: #f85149; font-family: monospace; font-size: 0.85em; width: 80px; flex-shrink: 0; }
+        .field-name { color: #f0883e; font-family: monospace; font-size: 0.85em; width: 150px; flex-shrink: 0; }
+        .field-desc { color: #8b949e; font-size: 0.88em; }
+
+        .section-label { display: inline-block; background: #ff6b35; color: #fff; padding: 2px 10px; border-radius: 4px; font-size: 0.75em; font-weight: bold; margin-right: 8px; }
+
+        .flow-arrow { color: #ff9f43; font-size: 1.2em; text-align: center; margin: 6px 0; }
+
+        .footer { text-align: center; color: #484f58; font-size: 0.8em; margin-top: 44px; padding-top: 18px; border-top: 1px solid #21262d; }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <div class="hero">
+            <h1>&#128459; Noir Table — Data Schema &amp; API Reference</h1>
+            <p class="tagline">Data structures, API responses, and Redux state for the React-Rest project</p>
+        </div>
+
+        <!-- API ENDPOINTS -->
+        <h2>&#128268; API Endpoints</h2>
+        <div class="card">
+            <h3>1. Restaurant List <span class="badge api">GET</span></h3>
+            <div class="api-url">https://foodfire.onrender.com/api/restaurants?lat=21.1702401&lng=72.8310607&page_type=DESKTOP_WEB_LISTING</div>
+            <h3>2. Restaurant Menu <span class="badge api">GET</span></h3>
+            <div class="api-url">https://foodfire.onrender.com/api/menu?page-type=REGULAR_MENU&complete-menu=true&lat=21.1702401&lng=72.8310607&restaurantId={resId}</div>
+            <div class="note"><strong>Note:</strong> The FoodFire proxy strips CORS headers. Coordinates target Mumbai. Swiggy's raw API cannot be called directly from the browser.</div>
+        </div>
+
+        <!-- RESTAURANT LIST RESPONSE -->
+        <h2>&#127859; Restaurant List Response Schema</h2>
+        <div class="card">
+            <p>Extracted path: <code>data.cards[4].card.card.gridElements.infoWithStyle.restaurants[]</code></p>
+            <div class="field-row"><span class="field-type">string</span><span class="field-name">id</span><span class="field-desc">Unique restaurant identifier (used in route: /restaurants/:resId)</span></div>
+            <div class="field-row"><span class="field-type">string</span><span class="field-name">name</span><span class="field-desc">Restaurant display name</span></div>
+            <div class="field-row"><span class="field-type">string</span><span class="field-name">cloudinaryImageId</span><span class="field-desc">Image key — combined with CDN_URL for full image URL</span></div>
+            <div class="field-row"><span class="field-type">number</span><span class="field-name">avgRating</span><span class="field-desc">Average star rating (e.g., 4.5)</span></div>
+            <div class="field-row"><span class="field-type">string[]</span><span class="field-name">cuisines</span><span class="field-desc">Array of cuisine types, e.g. ["North Indian", "Biryani", "Pizza"]</span></div>
+            <div class="field-row"><span class="field-type">string</span><span class="field-name">costForTwo</span><span class="field-desc">Formatted cost string, e.g. "₹400 for two"</span></div>
+            <div class="field-row"><span class="field-type">string</span><span class="field-name">sla.slaString</span><span class="field-desc">Delivery time estimate, e.g. "28-32 mins"</span></div>
+            <div class="field-row"><span class="field-type">string</span><span class="field-name">sla.lastMileTravelString</span><span class="field-desc">Distance info, e.g. "1.2 km"</span></div>
+            <div class="field-row"><span class="field-type">string</span><span class="field-name">areaName</span><span class="field-desc">Locality / area name</span></div>
+            <div class="field-row"><span class="field-type">string</span><span class="field-name">totalRatingsString</span><span class="field-desc">Total ratings count, e.g. "500+ ratings"</span></div>
+        </div>
+
+        <!-- MENU RESPONSE -->
+        <h2>&#127859; Menu Response Schema</h2>
+        <div class="card">
+            <p>Two data paths exist in the response:</p>
+            <h3>Restaurant Info <span class="badge req">REQUIRED</span></h3>
+            <code>data.cards[].card.card["@type"] === "type.googleapis.com/swiggy.presentation.food.v2.Restaurant"</code>
+            <h3>Menu Items <span class="badge req">REQUIRED</span></h3>
+            <code>data.cards[].groupedCard.cardGroupMap.REGULAR.cards[]</code>
+            <p style="margin-top:12px;">Each menu card has <code>card["@type"] === "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"</code> containing an <code>itemCards</code> array.</p>
+
+            <h3 style="margin-top:16px;">Menu Item Fields (inside itemCards)</h3>
+            <div class="field-row"><span class="field-type">string</span><span class="field-name">id</span><span class="field-desc">Unique item identifier</span></div>
+            <div class="field-row"><span class="field-type">string</span><span class="field-name">name</span><span class="field-desc">Dish name</span></div>
+            <div class="field-row"><span class="field-type">number</span><span class="field-name">price</span><span class="field-desc">Price in paise (divide by 100 for ₹)</span></div>
+            <div class="field-row"><span class="field-type">number</span><span class="field-name">defaultPrice</span><span class="field-desc">Fallback price in paise</span></div>
+            <div class="field-row"><span class="field-type">string</span><span class="field-name">description</span><span class="field-desc">Dish description</span></div>
+            <div class="field-row"><span class="field-type">string</span><span class="field-name">imageId</span><span class="field-desc">CDN image key</span></div>
+            <div class="field-row"><span class="field-type">boolean</span><span class="field-name">isVeg</span><span class="field-desc">Vegetarian indicator</span></div>
+            <div class="field-row"><span class="field-type">object</span><span class="field-name">rating</span><span class="field-desc">Rating object with avgRating field</span></div>
+            <div class="field-row"><span class="field-type">array</span><span class="field-name">badges</span><span class="field-desc">Badges like "chef's special", "spicy" with label text</span></div>
+        </div>
+
+        <!-- REDUX STORE -->
+        <h2>&#128230; Redux Store Schema</h2>
+        <div class="card">
+            <p>Defined in <code>src/utils/cartSlice.js</code> using Redux Toolkit <code>createSlice</code></p>
+
+            <h3>State Structure</h3>
+            <table>
+                <tr><th>Path</th><th>Type</th><th>Description</th></tr>
+                <tr><td><code>store.cart.items</code></td><td>Array&lt;object&gt;</td><td>Each item: { card: { info: {...} }, quantity: number }</td></tr>
+            </table>
+
+            <h3>Reducers (Actions)</h3>
+            <table>
+                <tr><th>Action</th><th>Payload</th><th>Logic</th></tr>
+                <tr><td><code>addItem</code></td><td>item object</td><td>If item exists by ID → increment quantity. Else → push with quantity: 1</td></tr>
+                <tr><td><code>removeItem</code></td><td>item ID</td><td>Filter out item with matching ID</td></tr>
+                <tr><td><code>increaseItem</code></td><td>item ID</td><td>Find item and increment quantity</td></tr>
+                <tr><td><code>decreaseItem</code></td><td>item ID</td><td>Decrement quantity; remove if <= 0</td></tr>
+                <tr><td><code>clearCart</code></td><td>-</td><td>Set items to empty array</td></tr>
+            </table>
+        </div>
+
+        <!-- ROUTES -->
+        <h2>&#128279; Route Map</h2>
+        <div class="card">
+            <table>
+                <tr><th>Route</th><th>Component</th><th>Data Fetching</th></tr>
+                <tr><td><code>/</code></td><td><code>Body</code></td><td><code>useResData()</code> fetches on mount</td></tr>
+                <tr><td><code>/about</code></td><td><code>About</code></td><td>None — static content</td></tr>
+                <tr><td><code>/contact</code></td><td><code>Contact</code></td><td>None — static form</td></tr>
+                <tr><td><code>/restaurants/:resId</code></td><td><code>RestaurantMenu</code></td><td><code>useRestaurantMenu(resId)</code> on mount</td></tr>
+                <tr><td><code>/cart</code></td><td><code>Cart</code></td><td>Reads from Redux store only</td></tr>
+                <tr><td><code>/login</code></td><td><code>Login</code></td><td>Local state (mock authentication)</td></tr>
+            </table>
+        </div>
+
+        <!-- CONSTANTS -->
+        <h2>&#128640; Constants &amp; Configuration</h2>
+        <div class="card">
+            <table>
+                <tr><th>Constant</th><th>Value / Purpose</th></tr>
+                <tr><td><code>FOODFIRE_API_URL</code></td><td>Full URL for restaurant list endpoint via FoodFire proxy</td></tr>
+                <tr><td><code>FOODFIRE_MENU_API_URL</code></td><td>Base URL for menu endpoint, suffixed with <code>{resId}</code></td></tr>
+                <tr><td><code>CDN_URL</code></td><td><code>https://media-assets.swiggy.com/swiggy/image/upload/.../w_508,h_320/c_fill/</code></td></tr>
+                <tr><td><code>ITEM_IMG_CDN_URL</code></td><td><code>.../w_208,h_208/c_fit/</code> — square crop for menu items</td></tr>
+                <tr><td><code>MENU_ITEM_TYPE_KEY</code></td><td><code>type.googleapis.com/swiggy.presentation.food.v2.ItemCategory</code></td></tr>
+                <tr><td><code>RESTAURANT_TYPE_KEY</code></td><td><code>type.googleapis.com/swiggy.presentation.food.v2.Restaurant</code></td></tr>
+            </table>
+        </div>
+
+        <!-- IMAGE URL CONSTRUCTION -->
+        <h2>&#128407; Image URL Construction</h2>
+        <div class="card">
+            <p>Restaurant card images:</p>
+            <div class="api-url">CDN_URL + cloudinaryImageId</div>
+            <p>Menu item images:</p>
+            <div class="api-url">ITEM_IMG_CDN_URL + imageId</div>
+            <div class="note"><strong>Note:</strong> The CDN base URL includes transformation params (width, height, fit, quality). Using the correct suffix for each image size ensures optimal loading performance.</div>
+        </div>
+
+        <div class="footer">
+            <p>Noir Table &mdash; Data Schema Reference &copy; 2025</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noir Table — Project Architecture Walkthrough</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #0d1117; color: #e6edf3; line-height: 1.7; }
+        .container { max-width: 920px; margin: 0 auto; padding: 40px 24px; }
+
+        .hero { text-align: center; padding: 50px 0 40px; border-bottom: 1px solid #21262d; margin-bottom: 40px; }
+        .hero h1 { font-size: 2.4em; color: #ff6b35; margin-bottom: 8px; letter-spacing: -0.5px; }
+        .hero .tagline { color: #8b949e; font-size: 1.1em; }
+        .hero .live-badge { display: inline-block; margin-top: 12px; background: #1f6feb22; color: #58a6ff; padding: 4px 14px; border-radius: 20px; font-size: 0.85em; border: 1px solid #1f6feb44; }
+
+        h2 { font-size: 1.4em; color: #ff9f43; margin: 36px 0 16px; padding-bottom: 8px; border-bottom: 2px solid #21262d; display: flex; align-items: center; gap: 10px; }
+        h3 { font-size: 1.05em; color: #79c0ff; margin: 20px 0 10px; }
+
+        .card { background: #161b22; border: 1px solid #21262d; border-radius: 10px; padding: 24px; margin-bottom: 20px; }
+        .card p { color: #c9d1d9; }
+
+        .tech-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; margin-top: 10px; }
+        .tech-item { background: #0d1117; border: 1px solid #21262d; border-radius: 8px; padding: 14px 16px; border-left: 3px solid #ff6b35; }
+        .tech-item strong { display: block; color: #e6edf3; font-size: 0.95em; }
+        .tech-item span { font-size: 0.82em; color: #8b949e; }
+
+        .component-tree { background: #0d1117; border: 1px solid #21262d; border-radius: 8px; padding: 20px; font-family: 'Cascadia Code', 'Fira Code', monospace; font-size: 0.85em; line-height: 1.8; overflow-x: auto; color: #c9d1d9; }
+        .component-tree .root { color: #ff6b35; font-weight: bold; }
+        .component-tree .comp { color: #79c0ff; }
+        .component-tree .util { color: #7ee787; }
+        .component-tree .hook { color: #d2a8ff; }
+
+        .flow-step { display: flex; align-items: flex-start; margin: 12px 0; gap: 14px; }
+        .flow-num { background: linear-gradient(135deg, #ff6b35, #ff9f43); color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8em; font-weight: bold; flex-shrink: 0; margin-top: 2px; }
+        .flow-text { color: #c9d1d9; font-size: 0.92em; }
+        .flow-text code { background: #1f6feb22; color: #79c0ff; padding: 1px 6px; border-radius: 4px; font-size: 0.9em; }
+
+        table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.9em; }
+        th { background: #1f6feb22; color: #58a6ff; padding: 10px 14px; text-align: left; border: 1px solid #21262d; font-weight: 600; }
+        td { padding: 9px 14px; border: 1px solid #21262d; color: #c9d1d9; }
+        tr:hover td { background: #161b22; }
+        code { background: #1f6feb22; color: #79c0ff; padding: 2px 7px; border-radius: 4px; font-size: 0.88em; font-family: 'Cascadia Code', monospace; }
+
+        .badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 0.78em; font-weight: 600; }
+        .badge.hook { background: #23863633; color: #3fb950; }
+        .badge.comp { background: #1f6feb33; color: #58a6ff; }
+        .badge.util { background: #f8514933; color: #f85149; }
+        .badge.state { background: #8957e533; color: #d2a8ff; }
+
+        .note { background: #f0f6fc1a; border-left: 3px solid #58a6ff; padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 16px 0; font-size: 0.9em; color: #8b949e; }
+        .note strong { color: #58a6ff; }
+
+        .api-url { background: #0d1117; border: 1px solid #21262d; color: #3fb950; padding: 12px 16px; border-radius: 8px; font-family: 'Cascadia Code', monospace; font-size: 0.82em; word-break: break-all; margin: 8px 0; }
+
+        hr { border: none; border-top: 1px solid #21262d; margin: 36px 0; }
+
+        .footer { text-align: center; color: #484f58; font-size: 0.82em; margin-top: 50px; padding-top: 20px; border-top: 1px solid #21262d; }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <div class="hero">
+            <h1>&#127869; Noir Table</h1>
+            <p class="tagline">A premium food delivery web application</p>
+            <span class="live-badge">&#9654; Live: https://Harsh-91221.github.io/React-Rest</span>
+        </div>
+
+        <!-- OVERVIEW -->
+        <h2>&#127919; Project Overview</h2>
+        <div class="card">
+            <p><strong>Noir Table</strong> is a Swiggy-inspired food delivery application that lets users browse restaurants, view detailed menus, add items to cart, and place orders. It fetches live restaurant and menu data from the Swiggy public API (proxied through FoodFire).</p>
+            <br>
+            <p>The project demonstrates core React concepts — <code>component composition</code>, <code>custom hooks</code>, <code>client-side routing</code>, <code>global state management</code>, and <code>API integration</code> — all built with modern React 18 patterns.</p>
+        </div>
+
+        <!-- TECH STACK -->
+        <h2>&#9881; Tech Stack</h2>
+        <div class="card">
+            <div class="tech-grid">
+                <div class="tech-item"><strong>React 18</strong><span>UI Framework with Hooks</span></div>
+                <div class="tech-item"><strong>React Router DOM v6</strong><span>Client-side routing</span></div>
+                <div class="tech-item"><strong>Redux Toolkit</strong><span>Global cart state</span></div>
+                <div class="tech-item"><strong>Tailwind CSS</strong><span>Utility-first styling</span></div>
+                <div class="tech-item"><strong>Parcel 2</strong><span>Zero-config bundler</span></div>
+                <div class="tech-item"><strong>FontAwesome 6</strong><span>Icon library</span></div>
+                <div class="tech-item"><strong>Firebase</strong><span>Analytics & hosting config</span></div>
+                <div class="tech-item"><strong>FoodFire API</strong><span>CORS proxy for Swiggy</span></div>
+            </div>
+        </div>
+
+        <!-- COMPONENT ARCHITECTURE -->
+        <h2>&#128218; Component Architecture</h2>
+        <div class="card">
+            <div class="component-tree">
+<span class="root">App.js</span> (Root entry — renders Router + Provider)
+├── <span class="comp">AppLayout</span>
+│   ├── <span class="comp">Header</span>
+│   │   ├── Logo + Nav links (NavLink)
+│   │   ├── Theme toggle (dark/light mode)
+│   │   ├── Cart icon with live count badge
+│   │   └── Login / User menu (context-based)
+│   ├── <span class="comp">Outlet</span> (Routes render here)
+│   │   ├── <span class="comp">Body</span> <span class="badge hook">HOOK</span>
+│   │   │   ├── Search bar + filter
+│   │   │   └── <span class="comp">RestaurantCard</span>[] (mapped)
+│   │   ├── <span class="comp">RestaurantMenu</span> <span class="badge hook">HOOK</span>
+│   │   │   └── <span class="comp">ItemList</span> (menu items)
+│   │   ├── <span class="comp">Cart</span> <span class="badge state">REDUX</span>
+│   │   │   └── <span class="comp">ItemList</span> (cart items)
+│   │   ├── <span class="comp">About</span> <span class="badge comp">STATIC</span>
+│   │   └── <span class="comp">Contact</span> <span class="badge comp">STATIC</span>
+│   ├── <span class="comp">Shimmer</span> <span class="badge comp">LOADING</span>
+│   └── <span class="comp">Error</span> <span class="badge util">ERROR</span>
+└── <span class="comp">Login</span> (separate auth route)
+            </div>
+        </div>
+
+        <!-- DATA FLOW -->
+        <h2>&#128260; Data Flow</h2>
+        <div class="card">
+            <div class="flow-step"><div class="flow-num">1</div><div class="flow-text">User opens app → <code>App.js</code> initializes <code>BrowserRouter</code> and wraps everything in <code>Redux.Provider</code></div></div>
+            <div class="flow-step"><div class="flow-num">2</div><div class="flow-text"><code>Body.js</code> mounts → calls <code>useResData()</code> hook → fetches restaurant list from FoodFire API</div></div>
+            <div class="flow-step"><div class="flow-num">3</div><div class="flow-text">Data flows into <code>RestaurantCard</code> components via props (parent-to-child)</div></div>
+            <div class="flow-step"><div class="flow-num">4</div><div class="flow-text">User clicks a restaurant → React Router navigates to <code>/restaurants/:resId</code></div></div>
+            <div class="flow-step"><div class="flow-num">5</div><div class="flow-text"><code>useRestaurantMenu(resId)</code> fetches full menu data from API and parses nested response</div></div>
+            <div class="flow-step"><div class="flow-num">6</div><div class="flow-text">User clicks "Add to Cart" → <code>dispatch(addItem(item))</code> updates Redux store</div></div>
+            <div class="flow-step"><div class="flow-num">7</div><div class="flow-text"><code>Header</code> re-renders automatically (via <code>useSelector</code>) showing updated cart count badge</div></div>
+        </div>
+
+        <!-- KEY FILES -->
+        <h2>&#128196; Key Files & Responsibilities</h2>
+        <div class="card">
+            <table>
+                <tr><th>File</th><th>Role</th></tr>
+                <tr><td><code>src/App.js</code></td><td>Router config, layout wrapper, Redux Provider</td></tr>
+                <tr><td><code>src/components/Header.js</code></td><td>Navigation, theme toggle, online indicator, login/user UI</td></tr>
+                <tr><td><code>src/components/Body.js</code></td><td>Search functionality, renders restaurant grid</td></tr>
+                <tr><td><code>src/components/RestaurantCard.js</code></td><td>Presentation component — displays one restaurant's key info</td></tr>
+                <tr><td><code>src/components/RestaurantMenu.js</code></td><td>Fetches and renders full menu for a restaurant</td></tr>
+                <tr><td><code>src/components/Cart.js</code></td><td>Reads cart from Redux, shows items and total, clear button</td></tr>
+                <tr><td><code>src/utils/useResData.js</code></td><td><span class="badge hook">CUSTOM HOOK</span> Fetches restaurants, handles loading/error states</td></tr>
+                <tr><td><code>src/utils/useRestuarantMenu.js</code></td><td><span class="badge hook">CUSTOM HOOK</span> Fetches menu by restaurant ID, parses nested API</td></tr>
+                <tr><td><code>src/utils/cartSlice.js</code></td><td><span class="badge state">REDUX SLICE</span> addItem, removeItem, increase/decrease qty, clearCart</td></tr>
+                <tr><td><code>src/utils/appStore.js</code></td><td><span class="badge state">REDUX STORE</span> configureStore with cart reducer</td></tr>
+                <tr><td><code>src/utils/constants.js</code></td><td>API URLs, CDN image URLs, type keys</td></tr>
+                <tr><td><code>src/utils/useOnlineStatus.js</code></td><td><span class="badge hook">CUSTOM HOOK</span> Tracks online/offline via <code>navigator.onLine</code></td></tr>
+                <tr><td><code>src/utils/userContext.js</code></td><td><span class="badge util">REACT CONTEXT</span> Provides logged-in user state globally</td></tr>
+            </table>
+        </div>
+
+        <!-- API ENDPOINTS -->
+        <h2>&#128268; API Endpoints</h2>
+        <div class="card">
+            <h3>Restaurant List</h3>
+            <div class="api-url">GET https://foodfire.onrender.com/api/restaurants?lat=21.17&lng=72.83&page_type=DESKTOP_WEB_LISTING</div>
+            <h3>Restaurant Menu</h3>
+            <div class="api-url">GET https://foodfire.onrender.com/api/menu?page-type=REGULAR_MENU&complete-menu=true&restaurantId={resId}</div>
+            <div class="note"><strong>Note:</strong> All API calls go through the FoodFire proxy server to avoid CORS issues with Swiggy's domain. The coordinates are set to Mumbai, India.</div>
+        </div>
+
+        <!-- REDUX STATE -->
+        <h2>&#128230; Redux Store Structure</h2>
+        <div class="card">
+            <table>
+                <tr><th>State Path</th><th>Type</th><th>Description</th></tr>
+                <tr><td><code>store.cart.items</code></td><td>Array</td><td>Cart items — each item has <code>card.info</code> + <code>quantity</code></td></tr>
+            </table>
+            <h3>Redux Actions</h3>
+            <table>
+                <tr><th>Action</th><th>Payload</th><th>Effect</th></tr>
+                <tr><td><code>addItem</code></td><td>menu item object</td><td>Adds item or increments quantity if already in cart</td></tr>
+                <tr><td><code>removeItem</code></td><td>item ID</td><td>Removes item from cart entirely</td></tr>
+                <tr><td><code>increaseItem</code></td><td>item ID</td><td>Increments quantity by 1</td></tr>
+                <tr><td><code>decreaseItem</code></td><td>item ID</td><td>Decrements quantity; removes if &lt;= 0</td></tr>
+                <tr><td><code>clearCart</code></td><td>—</td><td>Empties the entire cart</td></tr>
+            </table>
+        </div>
+
+        <!-- ROUTES -->
+        <h2>&#128279; Route Map</h2>
+        <div class="card">
+            <table>
+                <tr><th>Path</th><th>Component</th><th>Data Source</th></tr>
+                <tr><td><code>/</code></td><td><code>Body</code></td><td>API: restaurant list (useResData)</td></tr>
+                <tr><td><code>/about</code></td><td><code>About</code></td><td>Static content</td></tr>
+                <tr><td><code>/contact</code></td><td><code>Contact</code></td><td>Static form</td></tr>
+                <tr><td><code>/restaurants/:resId</code></td><td><code>RestaurantMenu</code></td><td>API: menu by resId (useRestaurantMenu)</td></tr>
+                <tr><td><code>/cart</code></td><td><code>Cart</code></td><td>Redux store only</td></tr>
+                <tr><td><code>/login</code></td><td><code>Login</code></td><td>Local state (mock auth)</td></tr>
+            </table>
+        </div>
+
+        <!-- DECISIONS -->
+        <h2>&#128161; Key Design Decisions</h2>
+        <div class="card">
+            <table>
+                <tr><th>Decision</th><th>Why</th></tr>
+                <tr><td><strong>Redux Toolkit for cart</strong></td><td>Cart state needs to be shared between RestaurantMenu and Header components. Redux provides a single source of truth without prop drilling.</td></tr>
+                <tr><td><strong>Custom hooks (useResData, useRestaurantMenu)</strong></td><td>Encapsulates data-fetching logic, keeping components clean and reusable. Also makes testing easier.</td></tr>
+                <tr><td><strong>FoodFire proxy instead of direct Swiggy API</strong></td><td>Swiggy's API blocks cross-origin requests. FoodFire acts as a CORS proxy, enabling browser fetch calls.</td></tr>
+                <tr><td><strong>React Context for user auth</strong></td><td>Simple user state that only needs to trickle down a few levels. Context is lighter than Redux for this use case.</td></tr>
+                <tr><td><strong>Shimmer loading skeleton</strong></td><td>Provides better UX than a spinner — users see the layout structure while content loads.</td></tr>
+                <tr><td><strong>Dark/Light theme with localStorage</strong></td><td>Preference persists across page reloads. Uses CSS custom properties on <code>:root</code> for easy theming.</td></tr>
+            </table>
+        </div>
+
+        <div class="footer">
+            <p>Noir Table &mdash; React-Rest &copy; 2025 &bull; Built with React 18, Redux Toolkit &amp; Tailwind CSS</p>
+        </div>
+    </div>
+</body>
+</html>
