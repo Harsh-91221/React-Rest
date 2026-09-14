@@ -23,8 +23,8 @@ A premium food delivery app where you can browse restaurants, view menus, and or
 ### Visual Guides
 | Resource | Link |
 |----------|------|
-| **Project Overview** | [Walkthrough](https://Harsh-91221.github.io/React-Rest/Docs/walkthrough-react-rest-overview.html) |
-| **Database Schema** | [Database Schema](https://Harsh-91221.github.io/React-Rest/Docs/walkthrough-react-rest-database-schema.html) |
+| **Project Overview** | [Walkthrough](https://Harsh-91221.github.io/React-Rest/Docs/walkthrough-Noir-Table-overview.html) |
+| **Database Schema** | [Database Schema](https://Harsh-91221.github.io/React-Rest/Docs/walkthrough-Noir-Table-database-schema.html) |
 
 ### Design System
 A complete design system with color palette, typography, and components is available in the `design-system/Noir-Table/` folder.
