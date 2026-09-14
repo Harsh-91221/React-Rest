@@ -12,4 +12,4 @@ export const MENU_ITEM_TYPE_KEY = "type.googleapis.com/swiggy.presentation.food.
 export const RESTAURANT_TYPE_KEY = "type.googleapis.com/swiggy.presentation.food.v2.Restaurant";
 
 // Logo URL
-export const LOGO_URL = "https://raw.githubusercontent.com/chetannada/Namaste-React/main/Chapter%2001%20-%20Inception/Images/logo.png";
+export const LOGO_URL = "https://cdn-icons-png.flaticon.com/512/3014/3014614.png";

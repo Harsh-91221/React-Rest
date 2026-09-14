@@ -64,21 +64,6 @@ const Body = () => {
                     </button>
                 </div>
 
-                {/* Theme Toggle */}
-                <div className="theme-toggle-container">
-                    <label className="theme-toggle-label">Dark Mode</label>
-                    <button 
-                        className="theme-toggle-switch"
-                        onClick={() => {
-                            const html = document.documentElement;
-                            html.classList.toggle('dark-mode');
-                        }}
-                    >
-                        <span className="theme-toggle-thumb"></span>
-                    </button>
-                    <label className="theme-toggle-label">Light Mode</label>
-                </div>
-
                 {/* Loading State */}
                 {loading ? (
                     <Shimmer />
